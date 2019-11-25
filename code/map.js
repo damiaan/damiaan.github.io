@@ -114,7 +114,7 @@ function ready(error,  _data) {
 	//console.log("TESTDATA",Object.keys(data[1])[0].toLowerCase());
 		
 	// if first key is undefined, probably the delimter was something else... try semicolon.
-	if (Object.keys(data[1])[0].length > 10) {
+	if (Object.keys(data[1])[0].length > 2) {
 	//console.log("STRANGE DATA TRYING SEMICOLON");
 	delim_attempt = delim_attempt + 1;
 	switch (delim_attempt) {
