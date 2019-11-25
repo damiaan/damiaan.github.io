@@ -1,0 +1,122 @@
+{
+  "_args": [
+    [
+      "svg2pdf.js",
+      "/home/damiaan"
+    ]
+  ],
+  "_from": "svg2pdf.js@latest",
+  "_hasShrinkwrap": false,
+  "_id": "svg2pdf.js@1.5.0",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/svg2pdf.js",
+  "_nodeVersion": "12.10.0",
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/svg2pdf.js_1.5.0_1570788171193_0.4912645832026168"
+  },
+  "_npmUser": {
+    "email": "npm@yworks.com",
+    "name": "yworks"
+  },
+  "_npmVersion": "6.10.3",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "svg2pdf.js",
+    "raw": "svg2pdf.js",
+    "rawSpec": "",
+    "scope": null,
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/svg2pdf.js/-/svg2pdf.js-1.5.0.tgz",
+  "_shasum": "1185adc14568e9b9e0fd7047b2eb6e0a9cfd2c44",
+  "_shrinkwrap": null,
+  "_spec": "svg2pdf.js",
+  "_where": "/home/damiaan",
+  "author": {
+    "email": "yfileshtml@yworks.com",
+    "name": "yFiles for HTML Support Team",
+    "url": "https://www.yworks.com/yfileshtml"
+  },
+  "bugs": {
+    "url": "https://github.com/yWorks/svg2pdf.js/issues"
+  },
+  "dependencies": {
+    "jspdf-yworks": "^2.1.1"
+  },
+  "description": "A javascript-only SVG to PDF conversion utility that runs in the browser leveraging jsPDF",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "browserify": "^16.2.3",
+    "chai": "^4.2.0",
+    "chalk": "^2.4.2",
+    "cssesc": "^3.0.0",
+    "exorcist": "^1.0.1",
+    "font-family-papandreou": "^0.2.0-patch1",
+    "karma": "^4.1.0",
+    "karma-babel-preprocessor": "^7.0.0",
+    "karma-browserify": "^6.0.0",
+    "karma-chai": "^0.1.0",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-coverage": "^1.1.2",
+    "karma-firefox-launcher": "^1.1.0",
+    "karma-mocha": "^1.3.0",
+    "karma-mocha-reporter": "^2.2.5",
+    "licensify": "^3.1.3",
+    "log-utils": "^1.0.0",
+    "mocha": "^6.2.0",
+    "requirejs": "^2.3.6",
+    "svgpath": "^2.2.2",
+    "uglify-js": "^3.6.0",
+    "watchify": "^3.11.1",
+    "yarpm": "^0.2.1"
+  },
+  "directories": {},
+  "dist": {
+    "fileCount": 6,
+    "integrity": "sha512-mgTZVTqF3c98uTqtoYXkzc1PGaz1ipIBxC0wPiDp7I/ZugoMpVKfYIzJmM2ixr0HQLsH6IICQWhTLfzbgzdLSw==",
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJdoFNLCRA9TVsSAnZWagAApKgP/2fJlMNzUaoHRFEmdozl\nYLCZjzHdPVfq5COmBbQvNnYkvj0G7DTy0Fg9u8EyJTMry38oOiYqFVLZB0Dy\niFev7eitL0OR97/zHq0VbuOr91+bOLsbWr70A4f1T+LTj0I03u3TaUD2WPr2\noDxrnOVsVRyxmeQ30rMDFUNSc/8LF/QVo3IPcV5ADq712raeC8CCOKBotK1j\n3lQc6HZ1YYeLE+jWuBXqtx7BcmDcmLiRnv+KuyJZhNSBAlGNm0YjXzfWLVxv\niDIr+FyLsqmMzBDoShaKQ8stJNMNmfAfXkA7zSI1zzzyDL7jj+NloDlTghgx\nDf2K574+76glNxd7Oi5/v5Msjpog5KsItyM7w8B7GuHN2Vl7muisDLeI+X1A\noAdN4pVHGItmNo/bCg89VX9FMUrxsg1neKWLgzkPyFfArU8kWixkQ3Q3x/1H\niiZHSaCfFWVFY3ZjPgcfclkPUmQ/0JjQ+vRqRTNBRF5Tkwh6LbNmlGY4eNlo\nP+Yui1EKWsmt24+tldwhxbNnvVNOGONhrJz8n+TIdi21/jztaBiFC4hjlSPk\nJnvpJU6yZPt9SkVRIAR4HfLded0KPUG38YRXvXZ/ZYoU298/DxId8A01XrVJ\ndflo1yxas9CHi1YxwbiyoeRhOuwWJsqzYZYiskkcl8IfvEPQLYSrTg3QfG2o\nn0fI\r\n=Wrid\r\n-----END PGP SIGNATURE-----\r\n",
+    "shasum": "1185adc14568e9b9e0fd7047b2eb6e0a9cfd2c44",
+    "tarball": "https://registry.npmjs.org/svg2pdf.js/-/svg2pdf.js-1.5.0.tgz",
+    "unpackedSize": 276526
+  },
+  "gitHead": "f8cdbced4fa1b5164468abff05e56e19a71e9bb5",
+  "homepage": "https://github.com/yWorks/svg2pdf.js#readme",
+  "keywords": [
+    "javascript",
+    "pdf",
+    "svg"
+  ],
+  "license": "MIT",
+  "main": "dist/svg2pdf.min.js",
+  "maintainers": [
+    {
+      "name": "yworks",
+      "email": "npm@yworks.com"
+    }
+  ],
+  "name": "svg2pdf.js",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yWorks/svg2pdf.js.git"
+  },
+  "scripts": {
+    "browserify": "browserify src/svg2pdf.js --debug -p licensify -s svg2pdf -o dist/svg2pdf.js",
+    "browserify:svgpath": "browserify node_modules/svgpath/index.js -s SvgPath -o src/SvgPath.js",
+    "build": "yarpm run browserify && yarpm run exorcist:svg2pdf && yarpm run uglify:dist",
+    "createreferences": "node tests/utils/reference-server.js",
+    "exorcist:svg2pdf": "browserify src/svg2pdf.js --debug -p licensify -s svg2pdf | exorcist dist/svg2pdf.js.map > dist/svg2pdf.js",
+    "test": "karma start",
+    "test:coverage": "yarpm run browserify && karma start --coverage",
+    "uglify:dist": "uglifyjs -m -c --source-map \"includeSources,content='dist/svg2pdf.js.map',url='svg2pdf.min.js.map' dist/svg2pdf.min.js.map\" --comments /@license/ -o dist/svg2pdf.min.js dist/svg2pdf.js"
+  },
+  "version": "1.5.0"
+}

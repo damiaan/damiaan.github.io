@@ -1,0 +1,144 @@
+{
+  "_args": [
+    [
+      "jspdf-yworks@^2.1.1",
+      "/home/damiaan/node_modules/svg2pdf.js"
+    ]
+  ],
+  "_from": "jspdf-yworks@>=2.1.1 <3.0.0",
+  "_hasShrinkwrap": false,
+  "_id": "jspdf-yworks@2.1.1",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/jspdf-yworks",
+  "_nodeVersion": "12.10.0",
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/jspdf-yworks_2.1.1_1570787895295_0.8367472457778535"
+  },
+  "_npmUser": {
+    "email": "npm@yworks.com",
+    "name": "yworks"
+  },
+  "_npmVersion": "6.10.3",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "jspdf-yworks",
+    "raw": "jspdf-yworks@^2.1.1",
+    "rawSpec": "^2.1.1",
+    "scope": null,
+    "spec": ">=2.1.1 <3.0.0",
+    "type": "range"
+  },
+  "_requiredBy": [
+    "/svg2pdf.js"
+  ],
+  "_resolved": "https://registry.npmjs.org/jspdf-yworks/-/jspdf-yworks-2.1.1.tgz",
+  "_shasum": "256c05152579f8819ff8bd00c1295d75f381b7c7",
+  "_shrinkwrap": null,
+  "_spec": "jspdf-yworks@^2.1.1",
+  "_where": "/home/damiaan/node_modules/svg2pdf.js",
+  "bin": {
+    "jsPDF-makeFonts": "makeFonts.js"
+  },
+  "bugs": {
+    "url": "https://github.com/yWorks/jsPDF/issues"
+  },
+  "dependencies": {
+    "atob": "^2.1.2",
+    "btoa": "^1.2.1",
+    "canvg": "1.5.3",
+    "es6-promise": "^4.2.6",
+    "file-saver": "2.0.1",
+    "html2canvas": "^1.0.0-rc.1",
+    "omggif": "1.0.9",
+    "stackblur-canvas": "2.2.0"
+  },
+  "description": "PDF Document creation from JavaScript",
+  "devDependencies": {
+    "@babel/core": "^7.4.3",
+    "@babel/plugin-external-helpers": "7.2.0",
+    "@babel/preset-env": "^7.4.3",
+    "acorn": "^6.1.1",
+    "babel-plugin-rewire-exports": "1.0.1",
+    "codeclimate-test-reporter": "0.5.1",
+    "diff": "4.0.1",
+    "docdash": "1.1.0",
+    "eslint": "^5.16.0",
+    "folder-delete": "1.0.4",
+    "gulp-babel": "^8.0.0",
+    "inquirer": "^6.2.2",
+    "jasmine": "^3.4.0",
+    "jasmine-core": "3.4.0",
+    "jasmine-expect": "^4.0.1",
+    "js-yaml": "3.13.1",
+    "jsdoc": "3.6.0",
+    "karma": "4.0.1",
+    "karma-babel-preprocessor": "^8.0.0",
+    "karma-chrome-launcher": "2.2.0",
+    "karma-coverage": "1.1.2",
+    "karma-firefox-launcher": "1.1.0",
+    "karma-ie-launcher": "1.0.0",
+    "karma-jasmine": "^2.0.1",
+    "karma-jasmine-matchers": "^4.0.1",
+    "karma-mocha-reporter": "2.2.5",
+    "karma-sauce-launcher": "2.0.2",
+    "karma-verbose-reporter": "0.0.6",
+    "local-web-server": "2.6.1",
+    "markdown": "0.5.0",
+    "prettier": "^1.13.7",
+    "promise-polyfill": "8.1.1",
+    "rollup": "1.12.1",
+    "rollup-plugin-babel": "4.3.2",
+    "rollup-plugin-buble": "^0.19.6",
+    "rollup-plugin-node-resolve": "4.2.3",
+    "rollup-plugin-sizes": "^0.5.1",
+    "uglify-js": "3.5.8"
+  },
+  "directories": {},
+  "dist": {
+    "fileCount": 7,
+    "integrity": "sha512-ZTUYUiL2YLCUZUvap38PlYaE9ZtyscxxgV5K+iLdx6qyOVTYJY+Tl2b6D7syUHeTJXdO8Ntw6hawNaXydcTLUA==",
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJdoFI4CRA9TVsSAnZWagAAjY8P/2JqltVDV2/8ywD4ZnMk\nhz87bz53ae5CZMJ60fQG9e092muX476dbqRNep/6MhCU2zLTD3V1TxNcoRHG\nDipEjS9Hfaesojf8KLzMm8jB59upfPlrpjtgyqQg2VAZWU8cPxbm9VMXIw2N\nzU1MGYRKyci9hecuL8IBudad/FJAO4vwHpGB48hEjM3Ca5DbUFwnTW5NGQob\nHhOeBEi9Sp1ZP3POFrmJFul7fS1XX5fs71RSd6QS0XnMt5DSKBSO1Jv9F1R0\nk57j30YAJT0J7fkAjXXCIlAJjneilkuZVrhpNmwdtxdG8WGCUXm5D0R0RrZy\nl+NY1ZklTV63U9Ly3dRvInZVG6/KxSrIDIfZaaGoi1PKzJGh6CACzibXkWQ1\nO7jHGNDqP06R+001cjxBXaiVJ+T3xWUYh8wePcaVjciBu9dk4wU0w3XEvVVc\nQ79DzV4GCJ257EubLhd1Jx0JNPJKW0lECV0HwVTzp5umK+hu2qHSgYF2NIqV\nsXNMPXqgDY6OQ6qa+m5dKpJTcF9/ABZ07Boh7o0TKi2BY0DIPnh+cdiuuwH7\n7IHLJ24ec/uQmkBdNKbrB6MBmrXHuIPqnrRD9jyoryww4dCkUCWpaeR6+uA7\nTZi/Lspw2x+4CGZF2j40bqQtMXMhYCNPrB2UvAGpQEf997TLE29F4MElilpr\nUOFM\r\n=d+6N\r\n-----END PGP SIGNATURE-----\r\n",
+    "shasum": "256c05152579f8819ff8bd00c1295d75f381b7c7",
+    "tarball": "https://registry.npmjs.org/jspdf-yworks/-/jspdf-yworks-2.1.1.tgz",
+    "unpackedSize": 2764830
+  },
+  "gitHead": "b7a1d8239c596292ce86dafa77f05987bcfa2e6e",
+  "homepage": "https://github.com/yWorks/jsPDF",
+  "keywords": [
+    "pdf"
+  ],
+  "license": "MIT",
+  "main": "dist/jspdf.min.js",
+  "maintainers": [
+    {
+      "name": "yworks",
+      "email": "npm@yworks.com"
+    }
+  ],
+  "name": "jspdf-yworks",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yWorks/jsPDF.git"
+  },
+  "scripts": {
+    "build": "node build.js && node build.js type=node",
+    "build-browser": "node build",
+    "build-node": "node build type=node",
+    "delete-docs": "node deletedocs.js",
+    "generate-docs": "jsdoc -c jsdoc.json --readme README.md",
+    "prettier": "prettier --write build.js \"{spec,examples,src}/**/*.js\"",
+    "start": "ws",
+    "test": "karma start karma.saucelabs.conf.js --single-run --verbose && for a in coverage/*; do codeclimate-test-reporter < \"$a/lcov.info\"; break; done",
+    "test-local": "karma start karma.conf.js",
+    "test-local-dist": "karma start karma.dist.conf.js",
+    "test-node": "node build type=node minify=false && jasmine --config=spec/support/jasmine.json",
+    "test-training": "node spec/utils/reference-server.js",
+    "version": "npm run build && git add -A dist"
+  },
+  "types": "types/index.d.ts",
+  "version": "2.1.1"
+}

@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+
+<head> 
+<meta charset="utf-8">
+<meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+<meta content="utf-8" http-equiv="encoding" />
+
+  <link rel="stylesheet" href="code/bootstrap.min.css">
+  <script src="code/jquery-1.11.2.min.js"></script>
+  <script src="code/bootstrap.min.js"></script>
+  
+  
+<style>
+
+.graticule {
+    fill: none;
+    stroke: #79A09E;
+    stroke-width: 1;
+    stroke-dasharray: 1,1;
+	}
+
+
+.table-split {
+  display: table-cell;
+  width: 0.6%
+}
+
+.subunit {
+    opacity: 1;
+}
+
+/*
+.subunit2 {
+    pointer-events: none;
+}
+*/
+
+
+
+
+.legend {
+            padding: 5px;
+            box-shadow: 2px 2px 1px #888;
+        }
+
+
+.legend2 {
+            padding: 5px;
+            box-shadow: 2px 2px 1px #888;
+        }
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+
+.twomaps {
+}
+
+.onemap {
+}
+
+.themap {
+}
+
+.histcontainer {
+}
+
+.rTable { display: table; }
+.rTableRow { display: table-row; }
+.rTableHeading { display: table-header-group; }
+.rTableBody { display: table-row-group; }
+.rTableFoot { display: table-footer-group; }
+.rTableCell, .rTableHead { display: table-cell; }
+.rTable, .rTableCell { height: 100%; }
+
+
+
+
+
+.axis path,
+.axis line {
+fill: none;
+stroke: #000;
+shape-rendering: crispEdges;
+}
+
+.dot {
+stroke: #000;
+}
+
+div.tooltip {   
+  position: absolute;           
+  text-align: center;           
+  width: 150px;                  
+  height: 35px;                 
+  padding: 2px;             
+  font: 10px sans-serif; 
+  color: #fff;       
+  background: rgba(0, 0, 0, 0.8);   
+  border: 0px;      
+  border-radius: 8px;           
+  pointer-events: none;         
+}
+
+.d3-tip {
+line-height: 1;
+font-weight: bold;
+padding: 12px;
+background: rgba(0, 0, 0, 0.8);
+color: #fff;
+border-radius: 2px;
+white-space: nowrap;
+}
+
+
+
+
+
+
+
+
+</style>
+</head>
+
+<body>
+
+
+
+<table>
+
+<tr>
+<td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td>
+</tr>
+<tr>
+
+<td>
+&nbsp;&nbsp;
+</td>
+<td valign=top>
+<!-- the map on the left -->
+<div class="onemap"  >
+<div class="themap" id="container" draggable="true" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);"></div>
+</div>
+<td>
+&nbsp;&nbsp;
+</td>
+</td>
+<td valign=top>
+
+
+
+    <label for="variableList">Variable: </label>
+	                        <select id="variableList" name="variableList">
+	                       </select> 	 <button id="applysettingsbutton">Apply current settings to all variables (!) </button>	<br/><br/>
+						   
+
+		<div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title"><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Open datafile, save datafile (with settings), save images</a></h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        
+								<div style="float: left;">
+                     Open datafile: <input id="csvfile" type="file" name="csvfile" size="15"  style="display:inline;"/> <br/>
+		 			 Save datafile:&nbsp;&nbsp;  <button id="savesettingsbutton">Browse...</button> (includes settings) <br/>
+</div>
+
+		<div style="float: left;">
+
+	                <button id="saveImage"  style="display:inline;">Save current map</button><br/>
+					<button id="saveAllImage"  style="display:inline;">Save maps for all variables in datafile</button>  Optional prefix for files: 
+					<input type="text" size="10" id="prefix" name="prefix" class="form-inline"><br/>
+					clicking the button above (save maps for all variables) will also create a movie<br/> <a style="display:none" id="download" download="rhomolo.avi">Download Movie</a>
+<!--					<button id="saveImage2">Save Histogram</button>						 -->
+					</div>
+						 
+                    </div>
+                </div>
+            </div>
+			
+			
+					<div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title"><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseFour">Colours</a></h4>
+                </div>
+                <div id="collapseFour" class="panel-collapse collapse in">
+                    <div class="panel-body">
+
+	               		<b>How to group regions in different colors</b> 
+	               		<select id="groupingstyle" name="groupingstyle" class="form-inline">  
+	               		 <option value="quantile">by quantiles</option> 			
+	               		 <option value="linear">equally spaced</option> 
+						 <option value="custom">custom series</option> 
+						 <option value="0.00001">steps of 0.00001</option> 
+						 <option value="0.00002">steps of 0.00002</option> 
+						 <option value="0.000025">steps of 0.000025</option> 
+						 <option value="0.00005">steps of 0.00005</option> 
+						 <option value="0.0001">steps of 0.0001</option> 
+					     <option value="0.0002">steps of 0.0002</option> 
+						 <option value="0.00025">steps of 0.00025</option> 
+						 <option value="0.0005">steps of 0.0005</option> 
+						 <option value="0.001">steps of 0.001</option> 
+						 <option value="0.00125">steps of 0.00125</option> 
+						 <option value="0.0015">steps of 0.0015</option> 
+						 <option value="0.002">steps of 0.002</option>
+						 <option value="0.0025">steps of 0.0025</option> 
+						 <option value="0.005">steps of 0.005</option> 
+						 <option value="0.01">steps of 0.01</option> 
+						 <option value="0.0125">steps of 0.0125</option> 
+						 <option value="0.015">steps of 0.015</option> 
+						 <option value="0.02">steps of 0.02</option>
+						 <option value="0.025">steps of 0.025</option> 
+						 <option value="0.05">steps of 0.05</option> 
+						 <option value="0.1">steps of 0.1</option> 
+						 <option value="0.125">steps of 0.125</option> 
+						 <option value="0.15">steps of 0.15</option> 
+						 <option value="0.2">steps of 0.2</option> 
+						 <option value="0.25">steps of 0.25</option> 
+						 <option value="0.5">steps of 0.5</option> 
+						 <option value="1">steps of 1</option> 
+						 <option value="1.25">steps of 1.25</option> 
+						 <option value="1.5">steps of 1.5</option> 
+						 <option value="2">steps of 2</option> 
+						 <option value="2.5">steps of 2.5</option> 
+						 <option value="5">steps of 5</option> 
+						 <option value="10">steps of 10</option> 
+ 						 <option value="12.5">steps of 12.5</option> 
+						 <option value="15">steps of 15</option>
+						 <option value="20">steps of 20</option> 
+						 <option value="25">steps of 25</option> 
+						 <option value="50">steps of 50</option> 
+						 <option value="100">steps of 100</option> 
+						 <option value="150">steps of 150</option>
+						 <option value="200">steps of 200</option> 
+						 <option value="250">steps of 250</option> 
+						 <option value="500">steps of 500</option> 
+						 <option value="1000">steps of 1000</option> 
+						 <option value="2000">steps of 2000</option>
+						 <option value="2500">steps of 2500</option> 
+						 <option value="5000">steps of 5000</option> 
+						 <option value="10000">steps of 10000</option> 
+						 <option value="20000">steps of 20000</option>
+						 <option value="25000">steps of 25000</option> 
+						 <option value="50000">steps of 50000</option> 
+						 <option value="100000">steps of 100000</option> 
+						 </select><br/>
+						Custom series of cutoff values: (e.g. 1,2,3) pos: <input type="text" name="poscutoffs" id="poscutoffs" size="30" value=""  class="form-inline">  neg: <input type="text" name="negcutoffs" id="negcutoffs" size="30" value=""  class="form-inline"> <br/>
+						
+						
+						<div id='wrapper' style="float: left;"> </div>
+						<div id='wrapper0' style="float: left;"></div>
+						<div id='wrapper2' style="float: left;"></div>
+         
+                      <input type="checkbox" id="poscheck" checked=TRUE  class="form-inline">Plot positive values <br/>
+					  Number of different colors, for positive values: 
+                        <select id="PosQuant" name="PosQuant" class="form-inline">
+						         <option value="1">1</option>
+	                        	 <option value="2">2</option>
+	                        	 <option value="3" >3</option>
+	                        	 <option value="4" >4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7" selected="selected">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                        </select>
+						Color scheme for positive values: 
+                		<select id="PosColor" name="PosColor" class="form-inline">
+                			<option value="Blues">Blues</option>
+							<option value="Reds">Reds</option>
+							<option value="Greens">Greens</option>
+							<option value="YlOrBr">Yellow-Brown</option>
+                			<option value="PuRd">Purple-Red</option>
+							<option value="Greys">Greys</option>
+							
+							<option value="Blue1">Blue1</option>
+							<option value="Blue2">Blue2</option>
+							<option value="Blue3">Blue3</option>
+							<option value="Red1">Red1</option>
+							<option value="Red2">Red2</option>
+							<option value="Red3">Red3</option>
+							<option value="Set1">Random</option>
+							
+							<option value="Add">Add to Neg</option>
+                		</select><br/>
+                 
+                
+                        	
+
+                 <input type="checkbox" id="negcheck" checked=TRUE  class="form-inline">Plot negative values <br/> 
+				 Number of different colors, for negative values:  
+                        <select id="NegQuant" name="NegQuant" class="form-inline">
+						                 <option value="1">1</option>
+                                     	 <option value="2">2</option>
+                                     	 <option value="3">3</option>
+                                     	 <option value="4">4</option>
+                                     	 <option value="5">5</option>
+                                     	 <option value="6">6</option>
+                                     	 <option value="7" selected="selected">7</option>
+                                     	 <option value="8">8</option>
+                                     	 <option value="9">9</option>
+                        </select>
+						Color scheme for negative values: 
+                		<select id="NegColor" name="NegColor" class="form-inline">
+							<option value="Reds">Reds</option>
+							<option value="Blues">Blues</option>
+						    <option value="Greens">Greens</option>
+							<option value="YlOrBr">Yellow-Brown</option>
+                			<option value="PuRd">Purple-Red</option>
+                			<option value="Greys">Greys</option>
+							
+							<option value="Blue1">Blue1</option>
+							<option value="Blue2">Blue2</option>
+							<option value="Blue3">Blue3</option>
+							<option value="Red1">Red1</option>
+							<option value="Red2">Red2</option>
+							<option value="Red3">Red3</option>
+							<option value="Set1">Random</option>10884
+10923
+10927
+10887
+10906
+10903
+10930
+10891
+10939
+10899
+10937
+10910
+10912
+10949
+10942
+10946
+10897
+10945
+10944
+10947
+10920
+10940
+10893
+10948
+10951
+10950
+25099
+
+							
+							<option value="Add">Add to Pos</option>
+                		</select>
+				   
+				   
+						 
+                    </div>
+                </div>
+            </div>
+
+			
+          
+		<div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title"><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Legend</a></h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse in">
+                    <div class="panel-body">
+					
+					      <input type="checkbox" id="poslegcheck" checked=TRUE class="form-inline">Plot legend for positive values 
+						  <input type="checkbox" id="neglegcheck" checked=TRUE class="form-inline">Plot legend negative values <br/> 
+						  percentages: <input type="checkbox" id="legendpercentage" checked=TRUE class="form-inline">add percentage sign to legend
+						  <input type="checkbox" id="legend100" checked=FALSE class="form-inline">multiply data by 100 in legend<br/> 
+					      
+					    Decimals:
+	               		<select id="legenddecimals" name="legenddecimals" class="form-inline">  
+	               		 <option value="auto"  selected="selected">auto</option> 			
+	               		 <option value="0">0</option> 
+						 <option value="1">1</option> 
+						 <option value="2">2</option> 
+						 <option value="3">3</option> 
+						 <option value="4">4</option> 
+						 </select>
+						 
+					
+ 						 Font size: <select id="legendfontsize" name="legendfontsize" class="form-inline">  
+						 <option value="8px">8px</option> 
+						 <option value="9px">9px</option> 
+	               		 <option value="10px">10px</option> 
+						 <option value="11px">11px</option> 
+						 <option value="12px"  selected="selected" >12px</option> 
+						 <option value="13px">13px</option> 
+						 <option value="14px">14px</option> 
+						 <option value="15px">15px</option> 
+						 <option value="16px">16px</option> 
+						 </select>&nbsp;&nbsp;
+						 
+			             Font thickness: <select id="legendfontweight" name="legendfontweight" class="form-inline">  
+						 <option value="normal">Light</option> 
+	               		 <option value="bold"   selected="selected">Bold</option> 
+						 </select>&nbsp;&nbsp;
+
+						Orientation: <select id="legendorientation" name="legendorientation" class="form-inline">  
+						 <option value="vertical"   selected="selected">Vertical</option> 
+	               		 <option value="horizontal" >Horizontal</option> 
+						 </select><br/><br/>
+						 Position and zoom for positive Legend: <input type="text" size="25" id="poslegtranslate" class="form-inline"> For negative Legend: <input type="text" size="25" id="neglegtranslate" class="form-inline"> 
+				      </div>
+                </div>
+            </div>		 
+						 
+						 
+					<div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title"><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Overal appearance and behaviour</a></h4>
+                </div>
+                <div id="collapseThree" class="panel-collapse collapse in">
+                    <div class="panel-body">
+								 
+						<label for="Projection">Projection </label>
+                        <select id="Projection" name="Projection" class="form-inline">
+<!--						                 <option value="Albers" >Albers Eq.Ar.</option> -->
+						                 <option value="Lambert">Lamb.C.C.</option>
+                                     	 <option value="Mercator"  selected="selected">Mercator</option>
+
+                        </select>
+						<label for="Zoomspeed">Zoom Speed </label>
+						<select id="zoomspeed" name="zoomspeed" class="form-inline">
+										 <option value="0.4">Faster zoom</option>
+						                 <option value="0.1"  selected="selected">Fast zoom</option>
+						                 <option value="0.05">Slow zoom</option>
+
+                        </select><br/>
+						
+				
+				
+						
+						
+						<input type="checkbox" id="displaynames" checked=FALSE class="form-inline"> Draw region codes 
+						<input type="checkbox" id="nodata" checked=TRUE class="form-inline"> Draw areas without data 
+						<input type="checkbox" id="drawregbordercheck" checked=TRUE class="form-inline">  Draw regional borders <br/>
+						<input type="checkbox" id="drawshadecheck" checked=FALSE class="form-inline">  Draw shade for 3D effect borders 
+						<input type="checkbox" id="drawcopyright" checked=TRUE class="form-inline">  Draw copyright notice  <br/>
+						<input type="checkbox" id="bysize" checked=FALSE class="form-inline">  Draw area proportionally (slow!)  
+						<input type="checkbox" id="drawgraticule" checked=TRUE class="form-inline">  Draw graticule (grid)  <br/>
+
+						
+					 	<b>Merge regions</b> (e.g. BE34,BE31)  <input type="text" name="MergeRegs" id="MergeRegs" size="30" value="" class="form-inline"> 
+					    Outer border size of merged regions: <select id="outerbordersize" name="outerbordersize" class="form-inline">  
+						 <option value="0">0</option> 
+						 <option value="0.5" >0.5</option> 
+						 <option value="1" selected="selected">1</option> 
+	               		 <option value="2">2</option> 
+						 <option value="3">3</option> 
+						 <option value="4">4</option> 
+						 <option value="5">5</option> 
+						 </select><br/>
+						 
+						Position and zoom of map <input type="text" size="25" id="translate" class="form-inline"> 
+
+						 
+   				      </div>
+                </div>
+            </div>		 
+						
+             
+
+                
+
+   		<div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title"><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseFive">Sumstats, Histogram, Scatterplot</a></h4>
+                </div>
+                <div id="collapseFive" class="panel-collapse collapse ">
+                    <div class="panel-body">             
+
+    <div id="sumstats1"></div>
+	
+    <div class="form-group">
+    	<button id="histogrambutton">histogram</button>		
+		
+						<select id="histcolor" name="histcolor" class="form-inline">
+						           <option value="colors"  selected="selected">colors</option>
+						           <option value="nocolors">no colors</option>
+						</select>
+						
+						Ignore observations on left/right: <select id="histcutleft" name="histcutleft" class="form-inline">
+						           <option value="0"  selected="selected">0 obs</option>
+						           <option value="1">1 obs</option>
+								   <option value="2">2 obs</option>
+								   <option value="3">3 obs</option>
+								   <option value="4">4 obs</option>
+								   <option value="5">5 obs</option>
+								   <option value="6">6 obs</option>
+								   <option value="7">7 obs</option>
+								   <option value="8">8 obs</option>
+								   <option value="9">9 obs</option>
+								   <option value="10">10 obs</option>
+								    <option value="11">11 obs</option>
+								   <option value="12">12 obs</option>
+								   <option value="13">13 obs</option>
+								   <option value="14">14 obs</option>
+								   <option value="15">15 obs</option>
+								   <option value="16">16 obs</option>
+								   <option value="17">17 obs</option>
+								   <option value="18">18 obs</option>
+								   <option value="19">19 obs</option>
+								   <option value="20">20 obs</option>
+							       <option value="21">21 obs</option>
+								   <option value="22">22 obs</option>
+								   <option value="23">23 obs</option>
+								   <option value="24">24 obs</option>
+								   <option value="25">25 obs</option>
+								   <option value="26">26 obs</option>
+								   <option value="27">27 obs</option>
+								   <option value="28">28 obs</option>
+								   <option value="29">29 obs</option>
+						</select>
+						
+						<select id="histcutright" name="histcutright" class="form-inline">
+						           <option value="0"  selected="selected">0 obs</option>
+						           <option value="1">1 obs</option>
+								   <option value="2">2 obs</option>
+								   <option value="3">3 obs</option>
+								   <option value="4">4 obs</option>
+								   <option value="5">5 obs</option>
+								   <option value="6">6 obs</option>
+								   <option value="7">7 obs</option>
+								   <option value="8">8 obs</option>
+								   <option value="9">9 obs</option>
+								   <option value="10">10 obs</option>
+								   <option value="11">11 obs</option>
+								   <option value="11">11 obs</option>
+								   <option value="12">12 obs</option>
+								   <option value="13">13 obs</option>
+								   <option value="14">14 obs</option>
+								   <option value="15">15 obs</option>
+								   <option value="16">16 obs</option>
+								   <option value="17">17 obs</option>
+								   <option value="18">18 obs</option>
+								   <option value="19">19 obs</option>
+								   <option value="20">20 obs</option>
+								   <option value="21">21 obs</option>
+								   <option value="22">22 obs</option>
+								   <option value="23">23 obs</option>
+								   <option value="24">24 obs</option>
+								   <option value="25">25 obs</option>
+								   <option value="26">26 obs</option>
+								   <option value="27">27 obs</option>
+								   <option value="28">28 obs</option>
+								   <option value="29">29 obs</option>
+								   
+						</select>
+						
+						Number of bars: <select id="histbins" name="histbins" class="form-inline">
+								   <option value="2">2</option>
+								   <option value="3">3</option>
+								   <option value="4">4</option>
+								   <option value="5">5</option>
+								   <option value="6">6</option>
+								   <option value="7">7</option>
+								   <option value="8">8</option>
+								   <option value="9">9</option>
+								   <option value="10">10</option>
+								   <option value="11">11</option>
+								   <option value="12">12</option>
+								   <option value="13">13</option>
+								   <option value="14">14</option>
+								   <option value="15">15</option>
+								   <option value="16">16</option>
+								   <option value="17">17</option>
+								   <option value="18">18</option>
+								   <option value="19">19</option>
+								   <option value="20">20</option>
+								   <option value="21">21</option>
+								   <option value="22">22</option>
+								   <option value="23">23</option>
+								   <option value="24">24</option>
+								   <option value="25">25</option>
+								   <option value="26">26</option>
+								   <option value="27">27</option>
+								   <option value="28">28</option>
+								   <option value="29">29</option> 
+								   <option value="30">30</option>   
+								   <option value="31">31</option>
+								   <option value="32">32</option>
+								   <option value="33">33</option>
+								   <option value="34">34</option>
+								   <option value="35">35</option>
+								   <option value="36">36</option>
+								   <option value="37">37</option>
+								   <option value="38">38</option>
+								   <option value="39">39</option>
+								   <option value="40" selected="selected">40</option>
+								   <option value="41">41</option>
+								   <option value="42">42</option>
+								   <option value="43">43</option>
+								   <option value="44">44</option>
+								   <option value="45">45</option>
+								   <option value="46">46</option>
+								   <option value="47">47</option>
+								   <option value="48">48</option>
+								   <option value="49">49</option>								   
+								   <option value="50">50</option>		
+								   <option value="51">51</option>
+								   <option value="52">52</option>
+								   <option value="53">53</option>
+								   <option value="54">54</option>
+								   <option value="55">55</option>
+								   <option value="56">56</option>
+								   <option value="57">57</option>
+								   <option value="58">58</option>
+								   <option value="59">59</option>
+								   <option value="60">60</option>								   
+								   <option value="61">61</option>		
+								   <option value="62">62</option>
+								   <option value="63">63</option>
+								   <option value="64">64</option>
+								   <option value="65">65</option>
+								   <option value="66">66</option>
+								   <option value="67">67</option>
+								   <option value="68">68</option>
+								   <option value="69">69</option>
+								   <option value="70">70</option>
+								   <option value="71">71</option>								   
+								   <option value="72">72</option>										   
+						</select>
+						
+						
+						<br><button id="scatterbutton">scatter against:</button><label for="scattervers"></label>
+    	<select id="scattervars" name="scattervars" class="form-inline">
+    	</select>
+    </div>
+	
+	
+   				      </div>
+                </div>
+            </div>		 
+							
+	
+			
+		
+
+
+	
+<div class="histcontainer" id="histcontainer"></div>
+
+</td> 
+</tr>
+</table>
+
+
+
+	
+
+
+
+
+		
+			
+			
+
+
+
+
+
+
+
+
+</br>
+<video style="display:none" id="video" width="900" height="900" controls loop></video>
+
+<!-- <a style="display:none" id="download" download="rhomolo.webm">Download WebM</a> -->
+
+
+
+
+
+
+
+
+<!-- the following is actually filled in an intermediate step to get a png, but i prefer not to display it	<div id="svgdataurl"></div> -->
+<div class="table-split"></div>
+<div id="pngdataurl" width="900" height="900"></div>
+<div class="table-split"></div>
+<script src="code/whammy.js"></script>
+<script src="code/base64.js"></script>
+<script src="code/video-builder.js"></script>
+<script src="code/queue-1.0.7.min.js"></script>
+<script src="code/some_d3.js" charset="utf-8" ></script>
+<script src="code/cartogram.js"></script>
+<script src="code/map.js"></script>
+<script src="code/topojson.min.js"></script>
+<script src="code/colorbrewer.js"></script>
+<script src="code/map_prepare.js"></script>
+<script src="code/map_localfunctions.js"></script>
+<script src="code/map_draw.js"></script>
+<script src="code/d3-dsv.v1.min.js"></script>
+<script src="code/d3.tip.v0.6.3.js"></script>
+
+
+
+
+<script>readSettings("default-settings.csv","rhomolo-output.csv","code/all2010.json","code/all2006.json");</script> 
+</body>
+</html> 	
