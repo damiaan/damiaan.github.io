@@ -128,7 +128,7 @@ function ready(error,  _data) {
 	createMap(downloadUrl, nutsUrl, nutsUrl2);
 	}
 	else {
-		//console.log("voor");
+		console.log("voor");
 		createMap2(nutsUrl, nutsUrl2);
 	}
 	
