@@ -154,32 +154,33 @@ The first row should contain variable names. Click "save image" to download the 
     <label for="variableList">Variable: </label>
 	                        <select id="variableList" name="variableList">
 	                       </select> 	 <button id="applysettingsbutton">Apply current settings to all variables (!) </button>	<br/><br/>
-						   
+
 
 		<div class="panel panel-default">
                 <div class="panel-heading">
-                    <h4 class="panel-title"><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Open datafile, save images</a></h4>
+                    <h4 class="panel-title"><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Open datafile, save datafile (with settings), save images</a></h4>
                 </div>
                 <div id="collapseOne" class="panel-collapse collapse in">
                     <div class="panel-body">
-                        
+
 								<div style="float: left;">
                      Open datafile: <input id="csvfile" type="file" name="csvfile" size="15"  style="display:inline;"/> <br/>
-		 			 Save datafile:&nbsp;&nbsp;  <button id="savesettingsbutton">Browse...</button> (includes settings) <br/> 
+		 			 Save datafile:&nbsp;&nbsp;  <button id="savesettingsbutton">Browse...</button> (includes settings) <br/>
 </div>
 
 		<div style="float: left;">
 
-	                <button id="saveImage"  style="display:inline;">Save current map</button>
+	                <button id="saveImage"  style="display:inline;">Save current map</button><br/>
 					<button id="saveAllImage"  style="display:inline;">Save maps for all variables in datafile</button>  Optional prefix for files: 
 					<input type="text" size="10" id="prefix" name="prefix" class="form-inline"><br/>
 					clicking the button above (save maps for all variables) will also create a movie<br/> <a style="display:none" id="download" download="rhomolo.avi">Download Movie</a>
 <!--					<button id="saveImage2">Save Histogram</button>						 -->
 					</div>
-						 
+
                     </div>
                 </div>
             </div>
+
 			
 			
 					<div class="panel panel-default">
