@@ -27,7 +27,7 @@ poscheck,TRUE
 negcheck,TRUE
 poslegcheck,TRUE
 neglegcheck,TRUE
-drawcopyright,TRUE
+drawcopyright,FALSE
 drawshadecheck,FALSE
 legendpercentage,TRUE
 legend100,FALSE
