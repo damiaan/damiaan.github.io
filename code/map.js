@@ -110,12 +110,12 @@ function ready(error,  _data) {
 	//console.log("TESTDATA",data);
 	//console.log("TESTDATA",Object.keys(data[1]));
 	//console.log("TESTDATA",Object.keys(data[1]).length);
-	//console.log("TESTDATA",Object.keys(data[1])[0]);
+	console.log("TESTDATA",Object.keys(data[1])[0]);
 	//console.log("TESTDATA",Object.keys(data[1])[0].toLowerCase());
 		
 	// if first key is undefined, probably the delimter was something else... try semicolon.
-	if (Object.keys(data[1])[0].length > 2) {
-	//console.log("STRANGE DATA TRYING SEMICOLON");
+	if ( (Object.keys(data[1])[0].length > 10) |  Object.keys(data[1])[0].includes(";") | Object.keys(data[1])[0].includes("\t") | Object.keys(data[1])[0].includes("|") )  {
+	console.log("STRANGE DATA TRYING SEMICOLON");
 	delim_attempt = delim_attempt + 1;
 	switch (delim_attempt) {
 	case 1 : delimiter = ";"; break;
