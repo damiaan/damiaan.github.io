@@ -683,7 +683,7 @@ neglegcheck =  document.getElementById('neglegcheck').checked;
 //    legend3 = legendnegtext.selectAll(".legend").data(negcuts, function(d) {return d;}).enter().append("g").attr("class", "legend");
 //	 }
 //	 else {
-	console("negcutsplus",negcutsplus)
+    console.log("negcutsplus",negcutsplus)
     legend3 = legendnegtext.selectAll(".legend").data(negcutsplus).enter().append("g").attr("class", "legend");		 
 //	 }
     
