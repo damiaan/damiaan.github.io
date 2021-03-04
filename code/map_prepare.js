@@ -748,12 +748,13 @@ function getcolor(m){
 	//console.log(m);
     // return colors depending on value
     // zero gets its color from positive or negative colorset, depending on which has the most values
-	// display white in case of missing data
-	if (m === '') { return "none" }
+    // display gray-ish in case of missing data
+    if (m === '') { return "none" }
+    if (m == 'NA') { return "none" }
     if (+m == 0) { 
     if (negdomain.length>posdomain.length) {if (negchecked == true) {return negscale(+m)} else {return "white"}};
     if (negdomain.length<posdomain.length) {if (poschecked == true) {return posscale(+m)} else {return "white"}};
-	if (negdomain.length==posdomain.length) {return "white"};
+    if (negdomain.length==posdomain.length) {return "white"};
     }
     // for other numbers, look up the value in positive or negative colorset, depending on the value
     if ((+m > 0 && m != "" && !posadd) || (negadd && +m < 0 )) { if (poschecked == true) {return posscale(+m)} else {return "white"} }
