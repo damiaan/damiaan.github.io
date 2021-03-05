@@ -760,8 +760,8 @@ function getcolor(m){
     if ((+m > 0 && m != "" && !posadd) || (negadd && +m < 0 )) { if (poschecked == true) {return posscale(+m)} else {return "white"} }
     if ((+m < 0 && m != "" && !negadd) || (posadd && +m > 0 )) { if (negchecked == true) {return negscale(+m)} else {return "white"} }
 	// if you end up here, display black, something went wrong
-    if (typeof m == 'undefined') { return "black" }
-	return "black";
+    if (typeof m == 'undefined') { return "none" }
+    return "none";
 };
 
 
