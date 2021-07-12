@@ -534,7 +534,10 @@ carto = d3.cartogram()
 				data[i][colSelected] = document.getElementById(d.id).checked;
 				}
 			else {
+				// ignore setting if cannot be found in html
+				if (document.getElementById(d.id)) {
 				data[i][colSelected] = document.getElementById(d.id).value;
+				}
 			}
 				}
 				else {
@@ -592,7 +595,9 @@ carto = d3.cartogram()
 				}
 			}
 			else {
+				if (document.getElementById(d.id)) {
 				element.value = d[colSelected];	
+				}
 			}
 			console.log("new setting offf", d.id);
 			console.log("new setting for variable offf", colSelected);
