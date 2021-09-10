@@ -574,12 +574,12 @@ carto = d3.cartogram()
 			// if no stored setting, skip... hmmm perhaps, if there is no setting... we actually want to have no setting, like for "merge"
 //		if (d.hasOwnProperty(colSelected)) {
 		
-		// if the ID is length 4, the row corresponds to a region and contains hard data
+		// if the ID is length up to 5, the row corresponds to a region and contains hard data
 		if (d.id.length < 6  && d.id.length != 0 ) {
         coldata[d.id] = d[colSelected];
-		} // else, the row contains a setting... actually allow for .length == 0, for empty string in merge
+		} // else, the row contains a setting... only if the setting is non-empty (or not NA or NaN), we write the contents of the setting to html. 
 //		if (d.id.length != 4 && d.id.length != 0 && d[colSelected].length != 0) {
-			if (d.id.length > 5 && d.id.length != 0 ) {
+			if (d.id.length > 5 && d.id.length != 0 && d[colSelected] != "NaN" && d[colSelected] != "NA"&& d[colSelected] != "") {
 //			//console.log("diddddd",d[colSelected]);
 //			dfds
 //			if (document.getElementById(d.id) != null)  {
