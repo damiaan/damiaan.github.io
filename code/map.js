@@ -197,7 +197,7 @@ function createMap2(nutsUrl, nutsUrl2) {
 		// has to be deleted, better simulate click on dropdown (which loads settings) before drawing the map.
 		// actually, allow for empty setting and apply it
 //		if (d.id.length != 4 && d.id.length != 0 && d[colSelected].length != 0) {
-		if (d.id.length > 5 && d.id.length != 0) {
+		if (d.id.length > 5 && d.id.length != 0  && d[colSelected] != "NaN" && d[colSelected] != "NA" && d[colSelected] != "") {
 			//console.log("TTTTTEST",d.id)
 			if (document.getElementById(d.id) != null)  {
 			var element = document.getElementById(d.id);
