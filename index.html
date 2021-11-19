@@ -167,13 +167,19 @@ The first row should contain variable names. Click "save image" to download the 
                 <div id="collapseOne" class="panel-collapse collapse in">
                     <div class="panel-body">
 
-								<div style="float: left;">
-                     Open datafile: <input id="csvfile" type="file" name="csvfile" size="15"  style="display:inline;"/> 
+			
+  		                   Open datafile: <input id="csvfile" type="file" name="csvfile" size="15"  class="hidden"/> 
+	<!--				 Open datafile: <input id="csvfile" type="file" name="csvfile" size="15"  style="display:inline;"/> -->
+					 <label id="thecsvfilename" for="csvfile">Select file</label> 
+					 <br/>
+				
+					  
 <!--		 			 Save datafile:&nbsp;&nbsp; -->  <button id="savesettingsbutton" class="hiddeninput"> <!-- Browse... --> </button> <!-- (includes settings) <br/> -->
-</div>
+
+					
+
 
 		<div style="float: left;">
-
 	                <button id="saveImage"  style="display:inline;">Save current map</button><br/>
 					<button id="saveAllImage"  style="display:inline;">Save maps for all variables in datafile</button>  Optional prefix for files: 
 					<input type="text" size="10" id="prefix" name="prefix" class="form-inline"><br/>
@@ -396,6 +402,10 @@ The first row should contain variable names. Click "save image" to download the 
 						 <option value="14px">14px</option> 
 						 <option value="15px">15px</option> 
 						 <option value="16px">16px</option> 
+						 <option value="18px">18px</option> 
+						 <option value="20px">20px</option> 
+						 <option value="22px">22px</option> 
+						 <option value="24px">24px</option> 
 						 </select>&nbsp;&nbsp;
 						 
 			             Font thickness: <select id="legendfontweight" name="legendfontweight" class="form-inline">  

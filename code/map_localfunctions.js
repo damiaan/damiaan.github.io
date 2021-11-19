@@ -12,6 +12,7 @@ function dropHandler(ev) {
       if (ev.dataTransfer.items[i].kind === 'file') {
         var file = ev.dataTransfer.items[i].getAsFile();
         console.log('AAAA... file[' + i + '].name = ' + file.name);
+		document.getElementById("thecsvfilename").innerHTML = file.name;
 		
 		
 
