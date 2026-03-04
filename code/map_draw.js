@@ -79,7 +79,7 @@ if (document.getElementById('bysize').checked == false && document.getElementByI
 	
 	//console.log("SIZE FALSE");
 	
-if ( (document.getElementById('nodata').checked == true) & (document.getElementById('drawgraticule').checked == true) ) {	
+if ( (document.getElementById('nodata').checked == true) && (document.getElementById('drawgraticule').checked == true) ) {
 lines = mapg.selectAll('path.graticule').data([graticule()]);
 lines.enter().append('path').classed('graticule', true);
 lines
@@ -250,7 +250,7 @@ if (document.getElementById('displaynames').checked == true) {
 				  return getcolor(coldata[d.id]);
 				  })
      .attr("dx", function(d){return -6})
-	 .attr("dy", function(d){ if ((d.id == "DE40")|(d.id == "BE24")|(d.id == "UKI2")|(d.id == "CZ02"))  {return -5}})
+	 .attr("dy", function(d){ if ((d.id == "DE40")||(d.id == "BE24")||(d.id == "UKI2")||(d.id == "CZ02"))  {return -5}})
      .text(function(d){return d.id});
 }
 
@@ -605,7 +605,7 @@ neglegcheck =  document.getElementById('neglegcheck').checked;
 		return myround(d)
 //		};
     }).attr("x", function(d, i) {
-		if ((parseInt(legendfontsize.match(/\d+/)[0]) > 18 ) | (myround(d).replace('-','').length > 5 ) ){
+		if ((parseInt(legendfontsize.match(/\d+/)[0]) > 18 ) || (myround(d).replace('-','').length > 5 ) ){
 			console.log("neg smaller round",myround(d));
 			return 8 +legendElementWidth * i*0.98;
 		}
@@ -655,7 +655,7 @@ neglegcheck =  document.getElementById('neglegcheck').checked;
 		return myround(d)  
 //	}
     }).attr("x", function(d, i) {
-	if ((parseInt(legendfontsize.match(/\d+/)[0]) > 18 ) | (myround(d).length > 5 )){
+	if ((parseInt(legendfontsize.match(/\d+/)[0]) > 18 ) || (myround(d).length > 5 )){
 		console.log("pos smaller round",myround(d).length);
 		return 8 +legendElementWidth * i*0.98;
 	}

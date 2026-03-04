@@ -71,7 +71,7 @@ var Base64 = {
     _utf8_decode : function(e) {
         var t = "";
         var n = 0;
-        var r = c1 = c2 = 0;
+        var r = 0, c1 = 0, c2 = 0, c3 = 0;
         while (n < e.length) {
             r = e.charCodeAt(n);
             if (r < 128) {
@@ -114,7 +114,7 @@ function ready(error,  _data) {
 	//console.log("TESTDATA",Object.keys(data[1])[0].toLowerCase());
 		
 	// if first key is undefined, probably the delimter was something else... try semicolon.
-	if ( (Object.keys(data[1])[0].length > 10) |  Object.keys(data[1])[0].includes(";") | Object.keys(data[1])[0].includes("\t") | Object.keys(data[1])[0].includes("|") )  {
+	if ( (Object.keys(data[1])[0].length > 10) || Object.keys(data[1])[0].includes(";") || Object.keys(data[1])[0].includes("\t") || Object.keys(data[1])[0].includes("|") )  {
 	console.log("STRANGE DATA TRYING SEMICOLON");
 	delim_attempt = delim_attempt + 1;
 	switch (delim_attempt) {
@@ -190,7 +190,7 @@ function createMap2(nutsUrl, nutsUrl2) {
 		d.id = d.id.replace("dec-00","DEC0");
 		console.log("SUBSTRING", d.id.substring(0,3));
 		
-		if (  d.id == "DE41" |  d.id == "DE42" |  d.id == "DED1" |  d.id == "DED3" | d.id.substring(0,3) == "ITD" | d.id.substring(0,3) == "ITE"  | d.id == "FI13" |  d.id == "FI18" |  d.id == "FI1A" | d.id.substring(0,2) == "GR" ) {nuts2006=1}
+		if (  d.id == "DE41" ||  d.id == "DE42" ||  d.id == "DED1" ||  d.id == "DED3" || d.id.substring(0,3) == "ITD" || d.id.substring(0,3) == "ITE"  || d.id == "FI13" ||  d.id == "FI18" ||  d.id == "FI1A" || d.id.substring(0,2) == "GR" ) {nuts2006=1}
 		
 		
 		// if the row in the csv dataset contains a setting, adjust the menus, overwriting default settings
