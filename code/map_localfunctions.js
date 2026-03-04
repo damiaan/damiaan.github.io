@@ -527,39 +527,34 @@ img.onload = function() {
                             $("#downloadLink").hide();
                             $("#downloadLink")[0].click();
 							
-	builder.addCanvasFrame(canvas);
-	encoder.add(canvas);
-	
+	try { builder.addCanvasFrame(canvas); } catch(e) { console.warn("video-builder failed (BlobBuilder not supported):", e); }
+	try { encoder.add(canvas); } catch(e) { console.warn("whammy encoder failed:", e); }
+
 	// if we just build the last image, create video
 	if (index == variables.length - 1 ) {
-		
+
 //	//console.log("encoder",encoder);
+	try {
 	encoder.compile(false, function(output){
 	var url = URL.createObjectURL(output);
 	var video = document.getElementById('video');
 	document.getElementById('video').src = url; //toString converts it to a URL via Object URLs, falling back to DataURL
 //	document.getElementById('download').style.display = '';
 	document.getElementById('download').href = url;
-	/*
-	video.innerHTML = '';
-	var source = document.createElement('source');
-	source.setAttribute('src', url);
-//	source.setAttribute('type', "video/webm");
-	video.appendChild(source);
-	video.innerHTML += "no video support";
-//	video.play();
-*/
 	});
-	
+	} catch(e) { console.warn("whammy compile failed:", e); }
+
 	// this is the AVI version
+	try {
 	builder.finish(function(generatedURL) {
-		
+
 	a = document.getElementById('download')
 	a.style.display = '';
 	a.href = generatedURL;
 //	a.click();
 	});
-	
+	} catch(e) { console.warn("video-builder finish failed:", e); }
+
 	}				
 						++index;
 						saveimages();
