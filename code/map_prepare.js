@@ -476,12 +476,11 @@ function prepareData() {
     negcolors = d3.map(colors.get(NegColorSelected));
     // for negative values, reverse the order of the colors (such that darker colors correspond to more smaller, more negative, values)
     negcolors = negcolors.get(NegQuantSelected);
-    negcolors2 = negcolors.slice();
-    negcolors2 = negcolors2.reverse();
+    negcolors2 = negcolors ? negcolors.slice().reverse() : [];
     //console.log('poscolors: ',poscolors);
     //console.log('negcolors2: ',negcolors2);
     //console.log("in drawmap");
-	
+
 //console.log("StyleSelected",StyleSelected);
 
 //console.log("posdomainnnnnnnnn",posdomain);
@@ -592,13 +591,12 @@ function prepareData() {
     negcolors = d3.map(colors.get(NegColorSelected));
     // for negative values, reverse the order of the colors (such that darker colors correspond to more smaller, more negative, values)
     negcolors = negcolors.get(NegQuantSelected);
-    negcolors2 = negcolors.slice();
-    negcolors2 = negcolors2.reverse();
+    negcolors2 = negcolors ? negcolors.slice().reverse() : [];
     //console.log('poscolors: ',poscolors);
     //console.log('negcolors2: ',negcolors2);
     //console.log("in drawmap");
-	
-	
+
+
 	//console.log("original possteps",possteps);
 
 	
