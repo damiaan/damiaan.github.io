@@ -61,10 +61,10 @@ function showinput(region) {
 
 // fill dropdown menu with list of all regions within the same country as the clicked region
 // and move selection to clicked region
-first = "<option value='";
-last = "</option>";
-textregions = "";
-textcountries = "";
+var first = "<option value='";
+var last = "</option>";
+var textregions = "";
+var textcountries = "";
 inputs.forEach(function(d) {
 	if (region.substring(0,2) == d.id.substring(0,2)) {
 		textregions += first + d.id + "'";
@@ -93,10 +93,10 @@ $("#countries").html(textcountries);
 // read and display existing values
 //console.log("storedinputs", inputs);
 // store the values for the clicked region in object R
-R = inputs.filter(function(d) { return d.id == region})[0];
+var R = inputs.filter(function(d) { return d.id == region})[0];
 //console.log("thisinput", R);
 //console.log("budget",myround(+R.Budget));
-sum = +R.TFP + +R.LP + +R.TC;
+var sum = +R.TFP + +R.LP + +R.TC;
 R.relTFP = +R.TFP/sum; if (isNaN(R.relTFP)) {R.relTFP = 0;};
 R.relLP = +R.LP/sum; if (isNaN(R.relLP)) {R.relLP = 0;};
 R.relTC = +R.TC/sum; if (isNaN(R.relTC)) {R.relTC = 0;};
@@ -115,27 +115,27 @@ document.getElementById("TCText").value = nodecimals(R.relTC*100);
 
 function storeinputs(level) {
 // apply (=store) inputs to region, or entire NUTS1 region, or entire country
-Budget = document.getElementById("Budget").value;
-TFP = document.getElementById("TFP").value;
-LP = document.getElementById("LP").value;
-TC = document.getElementById("TC").value;
+var Budget = document.getElementById("Budget").value;
+var TFP = document.getElementById("TFP").value;
+var LP = document.getElementById("LP").value;
+var TC = document.getElementById("TC").value;
 
-regtonuts1list = [];
-regtoctrlist = [];
+var regtonuts1list = [];
+var regtoctrlist = [];
 regionlist.forEach(function(d) {regtonuts1list.push(d.substring(0,3))});
 regionlist.forEach(function(d) {regtoctrlist.push(d.substring(0,2))});
 
 //console.log('regtonuts1: ',regtonuts1list);
 //console.log('regtoctr: ',regtoctrlist);
 
-region = $("#regions").val();    
-regionindex = regionlist.indexOf(region);
+var region = $("#regions").val();
+var regionindex = regionlist.indexOf(region);
 
 // get array of indices of regions in same nuts1, and same country
-nuts1indices = [];
-ctrindices = [];
-nuts1index = regtonuts1list.indexOf(region.substring(0,3));
-ctrindex = regtoctrlist.indexOf(region.substring(0,2));
+var nuts1indices = [];
+var ctrindices = [];
+var nuts1index = regtonuts1list.indexOf(region.substring(0,3));
+var ctrindex = regtoctrlist.indexOf(region.substring(0,2));
 while (nuts1index != -1) {
 nuts1indices.push(nuts1index);
 nuts1index =  regtonuts1list.indexOf(region.substring(0,3), nuts1index + 1);
@@ -193,34 +193,34 @@ countrylist = d3.set(countrylist).values();
 
 
 
-d3.select("#Budget").on("change", function() { 
-region =  $("#regions").val();
+d3.select("#Budget").on("change", function() {
+var region =  $("#regions").val();
 storeinputs("region");
 showinput(region);
 });
 
-d3.select("#TFP").on("change", function() { 
-region =  $("#regions").val();
+d3.select("#TFP").on("change", function() {
+var region =  $("#regions").val();
 storeinputs("region");
 showinput(region);
 });
 
-d3.select("#LP").on("change", function() { 
-region =  $("#regions").val();
+d3.select("#LP").on("change", function() {
+var region =  $("#regions").val();
 storeinputs("region");
 showinput(region);
 });
 
-d3.select("#TC").on("change", function() { 
-region =  $("#regions").val();
+d3.select("#TC").on("change", function() {
+var region =  $("#regions").val();
 storeinputs("region");
 showinput(region);
 });
 
 // if a new country is selected from dropdown, the 'clicked' region is the first region for that country
-d3.select("#countries").on("change", function() { 
-region =  $("#countries").val();
-thiscountryregionlist = [];
+d3.select("#countries").on("change", function() {
+var region =  $("#countries").val();
+var thiscountryregionlist = [];
 regionlist.forEach(function(d) {
 if (region.substring(0,2) == d.substring(0,2)) {
 thiscountryregionlist.push(d);
@@ -229,8 +229,8 @@ thiscountryregionlist.push(d);
 showinput(thiscountryregionlist[0]);
 });
 
-d3.select("#regions").on("change", function() { 
-region =  $("#regions").val();
+d3.select("#regions").on("change", function() {
+var region =  $("#regions").val();
 showinput(region);
 });
 
