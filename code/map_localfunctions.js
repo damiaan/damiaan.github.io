@@ -471,7 +471,7 @@ document.body.appendChild(videoCanvas);
 var videoCtx = videoCanvas.getContext('2d');
 
 if (typeof MediaRecorder !== 'undefined') {
-    var mimeType = ['video/webm;codecs=vp9', 'video/webm;codecs=vp8', 'video/webm', 'video/mp4']
+    var mimeType = ['video/mp4;codecs=avc1', 'video/mp4', 'video/webm;codecs=vp9', 'video/webm;codecs=vp8', 'video/webm']
         .filter(function(m) { return MediaRecorder.isTypeSupported(m); })[0] || null;
     if (mimeType) {
         var captureMethod = videoCanvas.captureStream || videoCanvas.mozCaptureStream;
