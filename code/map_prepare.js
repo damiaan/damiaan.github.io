@@ -474,8 +474,18 @@ function prepareData() {
     colors = d3.map(colorbrewer);
     poscolors = d3.map(colors.get(PosColorSelected));
     negcolors = d3.map(colors.get(NegColorSelected));
+    // If PosQuantSelected has no entry, fall back to the largest available quantile
+    posColorArray = poscolors.get(PosQuantSelected) || (function() {
+        var poskeys = poscolors.keys();
+        poskeys.sort(function(a,b){return +a - +b;});
+        return poskeys.length > 0 ? poscolors.get(poskeys[poskeys.length-1]) : [];
+    })();
     // for negative values, reverse the order of the colors (such that darker colors correspond to more smaller, more negative, values)
-    negcolors = negcolors.get(NegQuantSelected);
+    negcolors = negcolors.get(NegQuantSelected) || (function() {
+        var negkeys = d3.map(colors.get(NegColorSelected)).keys();
+        negkeys.sort(function(a,b){return +a - +b;});
+        return negkeys.length > 0 ? d3.map(colors.get(NegColorSelected)).get(negkeys[negkeys.length-1]) : null;
+    })();
     negcolors2 = negcolors ? negcolors.slice().reverse() : [];
     //console.log('poscolors: ',poscolors);
     //console.log('negcolors2: ',negcolors2);
@@ -506,7 +516,7 @@ function prepareData() {
     case "quantile" : 
 	//console.log("posdomain",posdomain);
 	//console.log("negdomain",negdomain);
-    posscale = d3.scale.quantile().domain(posdomain).range(poscolors.get(PosQuantSelected) || []);
+    posscale = d3.scale.quantile().domain(posdomain).range(posColorArray);
     negscale = d3.scale.quantile().domain(negdomain).range(negcolors2);
     poscuts = [d3.min(posdomain)].concat(posscale.quantiles());
     negcuts = negscale.quantiles().concat(d3.max(negdomain));
@@ -538,7 +548,7 @@ function prepareData() {
 		// mynegdomain = negdomain.concat([0]);
 	}
     console.log("mynegdomain",mynegdomain);
-	posscale = d3.scale.quantize().domain([d3.min(posdomain),d3.max(myposdomain)]).range(poscolors.get(PosQuantSelected) || []);
+	posscale = d3.scale.quantize().domain([d3.min(posdomain),d3.max(myposdomain)]).range(posColorArray);
     negscale = d3.scale.quantize().domain([d3.min(mynegdomain),d3.max(mynegdomain)]).range(negcolors2);
     poscuts = [d3.min(posdomain)];
     negcuts = [d3.max(negdomain)];
@@ -589,8 +599,17 @@ function prepareData() {
     colors = d3.map(colorbrewer);
     poscolors = d3.map(colors.get(PosColorSelected));
     negcolors = d3.map(colors.get(NegColorSelected));
+    posColorArray = poscolors.get(PosQuantSelected) || (function() {
+        var poskeys = poscolors.keys();
+        poskeys.sort(function(a,b){return +a - +b;});
+        return poskeys.length > 0 ? poscolors.get(poskeys[poskeys.length-1]) : [];
+    })();
     // for negative values, reverse the order of the colors (such that darker colors correspond to more smaller, more negative, values)
-    negcolors = negcolors.get(NegQuantSelected);
+    negcolors = negcolors.get(NegQuantSelected) || (function() {
+        var negkeys = d3.map(colors.get(NegColorSelected)).keys();
+        negkeys.sort(function(a,b){return +a - +b;});
+        return negkeys.length > 0 ? d3.map(colors.get(NegColorSelected)).get(negkeys[negkeys.length-1]) : null;
+    })();
     negcolors2 = negcolors ? negcolors.slice().reverse() : [];
     //console.log('poscolors: ',poscolors);
     //console.log('negcolors2: ',negcolors2);
@@ -648,7 +667,7 @@ function prepareData() {
 	*/
 	
 
-	posscale = d3.scale.threshold().domain(possteps).range(poscolors.get(PosQuantSelected) || []);
+	posscale = d3.scale.threshold().domain(possteps).range(posColorArray);
     negscale = d3.scale.threshold().domain(negsteps).range(negcolors2);
 
 	// add back elements to poscuts and poscutsplus
@@ -697,7 +716,7 @@ function prepareData() {
 	negsteps = negsteps.reverse();
     //console.log("negsteps",negsteps);
 	// notice: the STEPS used for the scale do NOT contain 0, and do NOT contain the maximum
-    posscale = d3.scale.threshold().domain(possteps).range(poscolors.get(PosQuantSelected) || []);
+    posscale = d3.scale.threshold().domain(possteps).range(posColorArray);
     negscale = d3.scale.threshold().domain(negsteps).range(negcolors2);
 	// notice: for poscuts 0 is added to the left... NEW; IF because NEGADD may be selected, WE ADD THE MINIUM OF THE DOMAIN, rather than strictly 0.
 	poscuts = [d3.min([d3.min(posdomain),0])].concat(possteps);
@@ -732,8 +751,8 @@ function prepareData() {
     };
     */
 	
-    colors = poscolors.get(PosQuantSelected) || [];
-    poscolors = poscolors.get(PosQuantSelected) || [];
+    colors = posColorArray;
+    poscolors = posColorArray;
     
 };
 
@@ -750,13 +769,13 @@ function getcolor(m){
     if (m === '') { return "none" }
     if (m == 'NA') { return "none" }
     if (+m == 0) { 
-    if (negdomain.length>posdomain.length) {if (negchecked == true) {return negscale(+m)} else {return "white"}};
-    if (negdomain.length<posdomain.length) {if (poschecked == true) {return posscale(+m)} else {return "white"}};
+    if (negdomain.length>posdomain.length) {if (negchecked == true) {return negscale(+m) || "none"} else {return "white"}};
+    if (negdomain.length<posdomain.length) {if (poschecked == true) {return posscale(+m) || "none"} else {return "white"}};
     if (negdomain.length==posdomain.length) {return "white"};
     }
     // for other numbers, look up the value in positive or negative colorset, depending on the value
-    if ((+m > 0 && m != "" && !posadd) || (negadd && +m < 0 )) { if (poschecked == true) {return posscale(+m)} else {return "white"} }
-    if ((+m < 0 && m != "" && !negadd) || (posadd && +m > 0 )) { if (negchecked == true) {return negscale(+m)} else {return "white"} }
+    if ((+m > 0 && m != "" && !posadd) || (negadd && +m < 0 )) { if (poschecked == true) {return posscale(+m) || "none"} else {return "white"} }
+    if ((+m < 0 && m != "" && !negadd) || (posadd && +m > 0 )) { if (negchecked == true) {return negscale(+m) || "none"} else {return "white"} }
 	// if you end up here, display black, something went wrong
     if (typeof m == 'undefined') { return "none" }
     return "none";
