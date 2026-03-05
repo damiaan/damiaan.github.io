@@ -567,38 +567,34 @@ img.src = url;
 
 done = 0;
 // load settings for active variable, then call rest() function
+// mirrors the variableList change event logic so checkboxes are handled correctly
 
-data.forEach(function(d,i,arr) {
-//		//console.log("d",d);
-		
-			// if no stored setting, skip
-		if (d.hasOwnProperty(variableToLoad)) {
-		
-		// if the ID is length 4, the row corresponds to a region and contains hard data
-		if (d.id.length < 6  && d.id.length != 0) {
+data.forEach(function(d, i, arr) {
+
+    // region row: load hard data
+    if (d.id.length < 6 && d.id.length != 0) {
         coldata[d.id] = d[variableToLoad];
-		} // else, the row contains a setting
-		if (d.id.length > 5 && d.id.length != 0) {
-			//console.log("diddddd",d[variableToLoad]);
-			if (document.getElementById(d.id) != null)  {
-			var element = document.getElementById(d.id);
-			var val = d[variableToLoad];
-			if ((val === "" || val === undefined) && typeof defaultsettings !== "undefined") {
-				var def = defaultsettings.find(function(s) { return s.Setting === d.id; });
-				if (def) val = def.Value;
-			}
-			element.value = val;
-		    //console.log("new setting offf", d.id);
-			//console.log("new setting for variable offf", variableToLoad);
-			//console.log("new value offf", val);
-		}}
-		
-	}
-done++;
-// when all settings are loaded
-if (done == arr.length)	{
-	rest();
-}
+    }
+
+    // settings row: apply to HTML elements, same logic as variableList change event
+    if (d.id.length > 5 && d.id.length != 0) {
+        var val = d[variableToLoad];
+        if (val != "NaN" && val != "NA" && val !== "" && val !== undefined) {
+            var el = document.getElementById(d.id);
+            if (el) {
+                if (checkboxes.indexOf(d.id) > -1) {
+                    el.checked = (typeof val === 'boolean') ? val : (val.toLowerCase() == 'true');
+                } else {
+                    el.value = val;
+                }
+            }
+        }
+    }
+
+    done++;
+    if (done == arr.length) {
+        rest();
+    }
 });
         }
 
