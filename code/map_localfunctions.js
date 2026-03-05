@@ -582,10 +582,15 @@ data.forEach(function(d,i,arr) {
 			//console.log("diddddd",d[variableToLoad]);
 			if (document.getElementById(d.id) != null)  {
 			var element = document.getElementById(d.id);
-			element.value = d[variableToLoad];
+			var val = d[variableToLoad];
+			if ((val === "" || val === undefined) && typeof defaultsettings !== "undefined") {
+				var def = defaultsettings.find(function(s) { return s.Setting === d.id; });
+				if (def) val = def.Value;
+			}
+			element.value = val;
 		    //console.log("new setting offf", d.id);
 			//console.log("new setting for variable offf", variableToLoad);
-			//console.log("new value offf", d[variableToLoad]);
+			//console.log("new value offf", val);
 		}}
 		
 	}
