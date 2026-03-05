@@ -477,16 +477,9 @@ if (typeof MediaRecorder !== 'undefined') {
     if (mimeType) {
         var captureMethod = videoCanvas.captureStream || videoCanvas.mozCaptureStream;
         if (captureMethod) {
-            // captureStream(0) = manual rate; we call requestFrame() after each draw
-            // to guarantee every frame is captured exactly once.
-            videoStream = captureMethod.call(videoCanvas, 0);
-            var testTrack = videoStream.getVideoTracks()[0];
-            hasRequestFrame = !!(testTrack && typeof testTrack.requestFrame === 'function');
-            if (!hasRequestFrame) {
-                // Firefox: requestFrame not supported; switch to 1.5fps timed capture
-                videoStream.getTracks().forEach(function(t) { t.stop(); });
-                videoStream = captureMethod.call(videoCanvas, 1.5);
-            }
+            // 15fps timed capture — the stream samples the canvas every ~67ms;
+            // we draw each frame and wait 90ms before the next one to guarantee capture.
+            videoStream = captureMethod.call(videoCanvas, 15);
             mediaRecorder = new MediaRecorder(videoStream, { mimeType: mimeType });
             mediaRecorder.ondataavailable = function(e) {
                 if (e.data.size > 0) mediaChunks.push(e.data);
@@ -589,13 +582,23 @@ img.onload = function() {
 		saveimages();
 	}
 
-	if (videoCtx && hasRequestFrame && videoStream) {
-		// Chrome/Edge: cross-fade from previous frame into this one, then hold.
+	if (videoCtx && videoStream) {
+		// Draw the variable name onto the video frame (same style as PNG export)
+		function drawVideoLabel() {
+			videoCtx.font = 'bold 22px sans-serif';
+			var tw = videoCtx.measureText(variableToLoad).width;
+			videoCtx.fillStyle = 'rgba(255,255,255,0.75)';
+			videoCtx.fillRect(26, 14, tw + 8, 30);
+			videoCtx.fillStyle = '#222222';
+			videoCtx.fillText(variableToLoad, 30, 36);
+		}
+
+		// Timed cross-fade: captureStream(15) samples every ~67ms;
+		// we wait 90ms between draws to guarantee each frame is captured.
 		var captureImg = img;
-		var tFps = 20;
-		var holdCount = 30;   // ~1.5s hold per map at 20fps
-		var fadeCount = 20;   // ~1.0s cross-fade at 20fps
-		var track = videoStream.getVideoTracks()[0];
+		var frameDur = 90;   // ms per step — slightly > 1000/15 fps
+		var holdCount = 18;  // ~1.6s hold
+		var fadeCount = 15;  // ~1.35s cross-fade
 
 		function runFade(step) {
 			if (step < fadeCount) {
@@ -605,20 +608,19 @@ img.onload = function() {
 				}
 				videoCtx.drawImage(captureImg, 0, 0);
 				videoCtx.globalAlpha = 1.0;
-				track.requestFrame();
-				setTimeout(function() { runFade(step + 1); }, 1000 / tFps);
+				drawVideoLabel();
+				setTimeout(function() { runFade(step + 1); }, frameDur);
 			} else {
 				videoCtx.drawImage(captureImg, 0, 0);
+				drawVideoLabel();
 				runHold(0);
 			}
 		}
 
 		function runHold(i) {
-			track.requestFrame();
 			if (i < holdCount - 1) {
-				setTimeout(function() { runHold(i + 1); }, 1000 / tFps);
+				setTimeout(function() { runHold(i + 1); }, frameDur);
 			} else {
-				// save this frame so the next map can fade from it
 				if (!prevFrame) {
 					prevFrame = document.createElement('canvas');
 					prevFrame.width = 900;
@@ -629,12 +631,8 @@ img.onload = function() {
 			}
 		}
 
-		if (prevFrame) { runFade(0); } else { videoCtx.drawImage(captureImg, 0, 0); runHold(0); }
+		if (prevFrame) { runFade(0); } else { videoCtx.drawImage(captureImg, 0, 0); drawVideoLabel(); runHold(0); }
 
-	} else if (videoCtx) {
-		// Firefox fallback: no requestFrame, timed capture, no transitions
-		videoCtx.drawImage(img, 0, 0);
-		setTimeout(advanceToNext, 700);
 	} else {
 		advanceToNext();
 	}
