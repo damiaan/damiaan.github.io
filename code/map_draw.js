@@ -496,8 +496,8 @@ lines.exit().remove();
 drawcopyright =  document.getElementById('drawcopyright').checked;
 
 function drawCopyright () {
-copyright.selectAll(".copyright2").remove()	
-copyright2 = copyright.append("g").attr("class","copyright2");
+copyright.selectAll(".copyright2").remove();
+var copyright2 = copyright.append("g").attr("class","copyright2");
 copyright2.append("text").attr("class", "legendtext").text("© EuroGeographics for the administrative boundaries").attr("x",30).attr("y",30).style("font-size","12px").style("font-weight","normal");
 copyright2.append("text").attr("class", "legendtext").text("© European Commission, Joint Research Centre (JRC), B.3 Territorial Development").attr("x",30).attr("y",15).style("font-size","12px").style("font-weight","normal");
    	

@@ -785,15 +785,7 @@ function getcolor(m){
 // populate drop down menu for variable selection
 function populateVariablesList(data) {
     $("#variableList").empty();
-	
-	// exclude empty data from menu
-	
-	bla = [];
-	data.forEach(function(d) {
-		bla += d;
-	});
-	console.log("test",data);
-	
+
     variables = d3.keys(data[1]);
     variables.shift();
     var items = "";
