@@ -455,14 +455,42 @@ var element = document.getElementById("variableList");
 
 
 
-// this will contain a movie version combining all images.
-var encoder = new Whammy.Video(1.5); 
+// Set up MediaRecorder for video export.
+// videoCanvas is kept off-DOM so d3.selectAll("canvas").remove() never touches it.
+var mediaRecorder = null;
+var mediaChunks = [];
+var videoCanvas = document.createElement('canvas');
+videoCanvas.width = 900;
+videoCanvas.height = 900;
+var videoCtx = videoCanvas.getContext('2d');
 
-var builder = new VideoBuilder({
-    width  : 900,
-    height : 900,
-    fps    : 1.5
-});
+if (typeof MediaRecorder !== 'undefined') {
+    var mimeType = ['video/webm;codecs=vp9', 'video/webm;codecs=vp8', 'video/webm', 'video/mp4']
+        .filter(function(m) { return MediaRecorder.isTypeSupported(m); })[0] || null;
+    if (mimeType) {
+        var captureMethod = videoCanvas.captureStream || videoCanvas.mozCaptureStream;
+        if (captureMethod) {
+            var videoStream = captureMethod.call(videoCanvas, 1.5); // 1.5 fps stream
+            mediaRecorder = new MediaRecorder(videoStream, { mimeType: mimeType });
+            mediaRecorder.ondataavailable = function(e) {
+                if (e.data.size > 0) mediaChunks.push(e.data);
+            };
+            mediaRecorder.onstop = function() {
+                var blob = new Blob(mediaChunks, { type: mimeType });
+                var url = URL.createObjectURL(blob);
+                var ext = mimeType.indexOf('mp4') > -1 ? '.mp4' : '.webm';
+                var a = document.getElementById('download');
+                a.href = url;
+                a.download = (prefix || 'rhomolo') + ext;
+                a.style.display = '';
+                var vid = document.getElementById('video');
+                vid.src = url;
+                vid.style.display = '';
+            };
+            mediaRecorder.start();
+        }
+    }
+}
 
 function main() {
     var index = 0;
@@ -527,37 +555,20 @@ img.onload = function() {
                             $("#downloadLink").hide();
                             $("#downloadLink")[0].click();
 							
-	try { builder.addCanvasFrame(canvas); } catch(e) { console.warn("video-builder failed (BlobBuilder not supported):", e); }
-	try { encoder.add(canvas); } catch(e) { console.warn("whammy encoder failed:", e); }
+	// draw this frame into the off-DOM video canvas for MediaRecorder to capture
+	if (videoCtx) { videoCtx.drawImage(img, 0, 0); }
 
-	// if we just build the last image, create video
-	if (index == variables.length - 1 ) {
-
-//	//console.log("encoder",encoder);
-	try {
-	encoder.compile(false, function(output){
-	var url = URL.createObjectURL(output);
-	var video = document.getElementById('video');
-	document.getElementById('video').src = url; //toString converts it to a URL via Object URLs, falling back to DataURL
-//	document.getElementById('download').style.display = '';
-	document.getElementById('download').href = url;
-	});
-	} catch(e) { console.warn("whammy compile failed:", e); }
-
-	// this is the AVI version
-	try {
-	builder.finish(function(generatedURL) {
-
-	a = document.getElementById('download')
-	a.style.display = '';
-	a.href = generatedURL;
-//	a.click();
-	});
-	} catch(e) { console.warn("video-builder finish failed:", e); }
-
-	}				
-						++index;
-						saveimages();
+	var isLast = (index == variables.length - 1);
+	// wait one frame duration (~667ms for 1.5fps) so captureStream picks this frame up,
+	// then advance; on the last frame, stop the recorder so it finalises the file
+	var frameDelay = (mediaRecorder && mediaRecorder.state === 'recording') ? 700 : 0;
+	setTimeout(function() {
+		if (isLast && mediaRecorder && mediaRecorder.state === 'recording') {
+			mediaRecorder.stop();
+		}
+		++index;
+		saveimages();
+	}, frameDelay);
 };
 img.src = url;					 
                     
