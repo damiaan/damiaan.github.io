@@ -556,6 +556,14 @@ img.onload = function() {
   canvas.height = 900;
   var ctx = canvas.getContext('2d');
   ctx.drawImage(img, 0, 0);
+  // write the variable name onto the image (upper-left area)
+  var label = $("#variableList").val();
+  ctx.font = 'bold 22px sans-serif';
+  var tw = ctx.measureText(label).width;
+  ctx.fillStyle = 'rgba(255,255,255,0.75)';
+  ctx.fillRect(26, 14, tw + 8, 30);
+  ctx.fillStyle = '#222222';
+  ctx.fillText(label, 30, 36);
   var canvasUrl = canvas.toDataURL("image/png");
   					filename =   prefix  + $("#variableList").val() + ".png";
 					filename = filename.replace(/\s+/g, '');
@@ -584,9 +592,9 @@ img.onload = function() {
 	if (videoCtx && hasRequestFrame && videoStream) {
 		// Chrome/Edge: cross-fade from previous frame into this one, then hold.
 		var captureImg = img;
-		var tFps = 30;
-		var holdCount = 18;   // ~0.6s hold per map at 30fps
-		var fadeCount = 12;   // ~0.4s cross-fade at 30fps
+		var tFps = 20;
+		var holdCount = 30;   // ~1.5s hold per map at 20fps
+		var fadeCount = 20;   // ~1.0s cross-fade at 20fps
 		var track = videoStream.getVideoTracks()[0];
 
 		function runFade(step) {
