@@ -506,7 +506,7 @@ function prepareData() {
     case "quantile" : 
 	//console.log("posdomain",posdomain);
 	//console.log("negdomain",negdomain);
-    posscale = d3.scale.quantile().domain(posdomain).range(poscolors.get(PosQuantSelected));
+    posscale = d3.scale.quantile().domain(posdomain).range(poscolors.get(PosQuantSelected) || []);
     negscale = d3.scale.quantile().domain(negdomain).range(negcolors2);
     poscuts = [d3.min(posdomain)].concat(posscale.quantiles());
     negcuts = negscale.quantiles().concat(d3.max(negdomain));
@@ -538,7 +538,7 @@ function prepareData() {
 		// mynegdomain = negdomain.concat([0]);
 	}
     console.log("mynegdomain",mynegdomain);
-	posscale = d3.scale.quantize().domain([d3.min(posdomain),d3.max(myposdomain)]).range(poscolors.get(PosQuantSelected));
+	posscale = d3.scale.quantize().domain([d3.min(posdomain),d3.max(myposdomain)]).range(poscolors.get(PosQuantSelected) || []);
     negscale = d3.scale.quantize().domain([d3.min(mynegdomain),d3.max(mynegdomain)]).range(negcolors2);
     poscuts = [d3.min(posdomain)];
     negcuts = [d3.max(negdomain)];
@@ -648,9 +648,9 @@ function prepareData() {
 	*/
 	
 
-	posscale = d3.scale.threshold().domain(possteps).range(poscolors.get(PosQuantSelected));
+	posscale = d3.scale.threshold().domain(possteps).range(poscolors.get(PosQuantSelected) || []);
     negscale = d3.scale.threshold().domain(negsteps).range(negcolors2);
-	
+
 	// add back elements to poscuts and poscutsplus
 	
 	
@@ -697,7 +697,7 @@ function prepareData() {
 	negsteps = negsteps.reverse();
     //console.log("negsteps",negsteps);
 	// notice: the STEPS used for the scale do NOT contain 0, and do NOT contain the maximum
-    posscale = d3.scale.threshold().domain(possteps).range(poscolors.get(PosQuantSelected));
+    posscale = d3.scale.threshold().domain(possteps).range(poscolors.get(PosQuantSelected) || []);
     negscale = d3.scale.threshold().domain(negsteps).range(negcolors2);
 	// notice: for poscuts 0 is added to the left... NEW; IF because NEGADD may be selected, WE ADD THE MINIUM OF THE DOMAIN, rather than strictly 0.
 	poscuts = [d3.min([d3.min(posdomain),0])].concat(possteps);
@@ -732,8 +732,8 @@ function prepareData() {
     };
     */
 	
-    colors = poscolors.get(PosQuantSelected);
-    poscolors = poscolors.get(PosQuantSelected);
+    colors = poscolors.get(PosQuantSelected) || [];
+    poscolors = poscolors.get(PosQuantSelected) || [];
     
 };
 
