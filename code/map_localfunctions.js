@@ -456,12 +456,18 @@ var element = document.getElementById("variableList");
 
 
 // Set up MediaRecorder for video export.
-// videoCanvas is kept off-DOM so d3.selectAll("canvas").remove() never touches it.
+// videoCanvas is attached to the DOM (hidden) so captureStream works reliably.
+// It gets a specific id so the per-frame canvas.remove() call leaves it alone.
 var mediaRecorder = null;
 var mediaChunks = [];
+var videoStream = null;
+var hasRequestFrame = false;
 var videoCanvas = document.createElement('canvas');
+videoCanvas.id = 'video-recorder-canvas';
 videoCanvas.width = 900;
 videoCanvas.height = 900;
+videoCanvas.style.display = 'none';
+document.body.appendChild(videoCanvas);
 var videoCtx = videoCanvas.getContext('2d');
 
 if (typeof MediaRecorder !== 'undefined') {
@@ -470,7 +476,16 @@ if (typeof MediaRecorder !== 'undefined') {
     if (mimeType) {
         var captureMethod = videoCanvas.captureStream || videoCanvas.mozCaptureStream;
         if (captureMethod) {
-            var videoStream = captureMethod.call(videoCanvas, 1.5); // 1.5 fps stream
+            // captureStream(0) = manual rate; we call requestFrame() after each draw
+            // to guarantee every frame is captured exactly once.
+            videoStream = captureMethod.call(videoCanvas, 0);
+            var testTrack = videoStream.getVideoTracks()[0];
+            hasRequestFrame = !!(testTrack && typeof testTrack.requestFrame === 'function');
+            if (!hasRequestFrame) {
+                // Firefox: requestFrame not supported; switch to 1.5fps timed capture
+                videoStream.getTracks().forEach(function(t) { t.stop(); });
+                videoStream = captureMethod.call(videoCanvas, 1.5);
+            }
             mediaRecorder = new MediaRecorder(videoStream, { mimeType: mimeType });
             mediaRecorder.ondataavailable = function(e) {
                 if (e.data.size > 0) mediaChunks.push(e.data);
@@ -498,7 +513,7 @@ function main() {
     function saveimages() {
         if (index < variables.length) {
 			
-d3.selectAll("canvas").remove();
+d3.selectAll("canvas:not(#video-recorder-canvas)").remove();
 d3.selectAll("img").remove();
 			
 var canvas = d3.select('body').append('canvas').style("display","none").node();			
@@ -555,13 +570,19 @@ img.onload = function() {
                             $("#downloadLink").hide();
                             $("#downloadLink")[0].click();
 							
-	// draw this frame into the off-DOM video canvas for MediaRecorder to capture
-	if (videoCtx) { videoCtx.drawImage(img, 0, 0); }
+	// draw this frame into the video canvas for MediaRecorder to capture
+	if (videoCtx) {
+		videoCtx.drawImage(img, 0, 0);
+		if (hasRequestFrame && videoStream) {
+			// Chrome/Edge: explicitly signal 'capture this frame now'
+			videoStream.getVideoTracks()[0].requestFrame();
+		}
+	}
 
 	var isLast = (index == variables.length - 1);
-	// wait one frame duration (~667ms for 1.5fps) so captureStream picks this frame up,
-	// then advance; on the last frame, stop the recorder so it finalises the file
-	var frameDelay = (mediaRecorder && mediaRecorder.state === 'recording') ? 700 : 0;
+	// For Firefox (no requestFrame), wait one frame period so the timed stream captures it.
+	// For Chrome/Edge, requestFrame() already captured it; advance immediately.
+	var frameDelay = (!hasRequestFrame && mediaRecorder && mediaRecorder.state === 'recording') ? 700 : 0;
 	setTimeout(function() {
 		if (isLast && mediaRecorder && mediaRecorder.state === 'recording') {
 			mediaRecorder.stop();
