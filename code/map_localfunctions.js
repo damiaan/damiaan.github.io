@@ -462,6 +462,7 @@ var mediaRecorder = null;
 var mediaChunks = [];
 var videoStream = null;
 var hasRequestFrame = false;
+var prevFrame = null; // holds the previous map frame for cross-fade transitions
 var videoCanvas = document.createElement('canvas');
 videoCanvas.id = 'video-recorder-canvas';
 videoCanvas.width = 900;
@@ -555,6 +556,14 @@ img.onload = function() {
   canvas.height = 900;
   var ctx = canvas.getContext('2d');
   ctx.drawImage(img, 0, 0);
+  // write the variable name onto the image (upper-left area)
+  var label = $("#variableList").val();
+  ctx.font = 'bold 22px sans-serif';
+  var tw = ctx.measureText(label).width;
+  ctx.fillStyle = 'rgba(255,255,255,0.75)';
+  ctx.fillRect(26, 14, tw + 8, 30);
+  ctx.fillStyle = '#222222';
+  ctx.fillText(label, 30, 36);
   var canvasUrl = canvas.toDataURL("image/png");
   					filename =   prefix  + $("#variableList").val() + ".png";
 					filename = filename.replace(/\s+/g, '');
@@ -570,26 +579,65 @@ img.onload = function() {
                             $("#downloadLink").hide();
                             $("#downloadLink")[0].click();
 							
-	// draw this frame into the video canvas for MediaRecorder to capture
-	if (videoCtx) {
-		videoCtx.drawImage(img, 0, 0);
-		if (hasRequestFrame && videoStream) {
-			// Chrome/Edge: explicitly signal 'capture this frame now'
-			videoStream.getVideoTracks()[0].requestFrame();
-		}
-	}
-
 	var isLast = (index == variables.length - 1);
-	// For Firefox (no requestFrame), wait one frame period so the timed stream captures it.
-	// For Chrome/Edge, requestFrame() already captured it; advance immediately.
-	var frameDelay = (!hasRequestFrame && mediaRecorder && mediaRecorder.state === 'recording') ? 700 : 0;
-	setTimeout(function() {
+
+	function advanceToNext() {
 		if (isLast && mediaRecorder && mediaRecorder.state === 'recording') {
 			mediaRecorder.stop();
 		}
 		++index;
 		saveimages();
-	}, frameDelay);
+	}
+
+	if (videoCtx && hasRequestFrame && videoStream) {
+		// Chrome/Edge: cross-fade from previous frame into this one, then hold.
+		var captureImg = img;
+		var tFps = 20;
+		var holdCount = 30;   // ~1.5s hold per map at 20fps
+		var fadeCount = 20;   // ~1.0s cross-fade at 20fps
+		var track = videoStream.getVideoTracks()[0];
+
+		function runFade(step) {
+			if (step < fadeCount) {
+				if (prevFrame) {
+					videoCtx.drawImage(prevFrame, 0, 0);
+					videoCtx.globalAlpha = (step + 1) / fadeCount;
+				}
+				videoCtx.drawImage(captureImg, 0, 0);
+				videoCtx.globalAlpha = 1.0;
+				track.requestFrame();
+				setTimeout(function() { runFade(step + 1); }, 1000 / tFps);
+			} else {
+				videoCtx.drawImage(captureImg, 0, 0);
+				runHold(0);
+			}
+		}
+
+		function runHold(i) {
+			track.requestFrame();
+			if (i < holdCount - 1) {
+				setTimeout(function() { runHold(i + 1); }, 1000 / tFps);
+			} else {
+				// save this frame so the next map can fade from it
+				if (!prevFrame) {
+					prevFrame = document.createElement('canvas');
+					prevFrame.width = 900;
+					prevFrame.height = 900;
+				}
+				prevFrame.getContext('2d').drawImage(videoCanvas, 0, 0);
+				advanceToNext();
+			}
+		}
+
+		if (prevFrame) { runFade(0); } else { videoCtx.drawImage(captureImg, 0, 0); runHold(0); }
+
+	} else if (videoCtx) {
+		// Firefox fallback: no requestFrame, timed capture, no transitions
+		videoCtx.drawImage(img, 0, 0);
+		setTimeout(advanceToNext, 700);
+	} else {
+		advanceToNext();
+	}
 };
 img.src = url;					 
                     
