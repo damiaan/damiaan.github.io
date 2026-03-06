@@ -57,18 +57,6 @@ body {
   font-family: Arial, sans-serif;
 }
 
-#version-badge {
-  position: fixed;
-  top: 4px;
-  left: 4px;
-  font-size: 10px;
-  color: #aaa;
-  font-family: monospace;
-  z-index: 9999;
-  pointer-events: none;
-}
-
-
 .twomaps {
 }
 
@@ -586,12 +574,5 @@ The first row should contain variable names. Click "save image" to download the 
 })();
 </script>
 <script>readSettings("default-settings.csv","rhomolo-output.csv","code/all2010.json","code/all2006.json");</script>
-<div id="version-badge">...</div>
-<script>
-fetch("https://api.github.com/repos/damiaan/damiaan.github.io/commits/master?per_page=1")
-  .then(r => r.json())
-  .then(d => { document.getElementById("version-badge").textContent = d.sha ? d.sha.slice(0,7) : ""; })
-  .catch(() => {});
-</script>
 </body>
 </html> 	
