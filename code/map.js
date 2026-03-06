@@ -359,11 +359,12 @@ function registerEventHandlers() {
     });
 
     // After switching variable: load stored settings for the new variable and redraw.
+    // setTimeout defers the heavy redraw so the dropdown closes first.
     d3.select("#variableList").on("change", function() {
         colSelected = $("#variableList").val();
         applyVariableSettingsToUI(data, colSelected);
         coldata = buildColdata(data, colSelected);
-        redrawEverything();
+        setTimeout(redrawEverything, 0);
     });
 
     // Colour quantity / scheme changes.
