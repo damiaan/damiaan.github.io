@@ -209,9 +209,6 @@ mapg.selectAll(".subunit2").data(topojson.feature(nuts, nuts.objects.subunits).f
 //	.attr('test',function(d){ return +coldata[d.id] })
 //	.attr('test2',function(d){ return posscale(+coldata[d.id]) })
     .attr('fill',function(d){
-				  console.log("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
-				  console.log(coldata[d.id]);
-				  console.log(getcolor(coldata[d.id]));
 //	if (d.id.substring(0,2) != "UK") {
 				  return getcolor(coldata[d.id]);
 //				  }
@@ -274,8 +271,6 @@ if (document.getElementById('displaynames').checked == true) {
                 .attr("d", path)
 				.classed("subunit2", true)
 				    .attr('fill',function(d){
-//				  //console.log("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
-	//			  //console.log(getcolor(coldata[d.id]));
 				  return getcolor(coldata[d.id]);});
 				
 				// .attr("d", carto.path)
@@ -606,11 +601,9 @@ neglegcheck =  document.getElementById('neglegcheck').checked;
 //		};
     }).attr("x", function(d, i) {
 		if ((parseInt(legendfontsize.match(/\d+/)[0]) > 18 ) || (myround(d).replace('-','').length > 5 ) ){
-			console.log("neg smaller round",myround(d));
 			return 8 +legendElementWidth * i*0.98;
 		}
 		else {
-			console.log("neg not smaller round",myround(d).length);
 			return 10 +legendElementWidth * i;
 		}
     }).attr("y",  100+gridSize*0.9).style("font-size",legendfontsize).style("font-weight",legendfontweight);
@@ -656,11 +649,9 @@ neglegcheck =  document.getElementById('neglegcheck').checked;
 //	}
     }).attr("x", function(d, i) {
 	if ((parseInt(legendfontsize.match(/\d+/)[0]) > 18 ) || (myround(d).length > 5 )){
-		console.log("pos smaller round",myround(d).length);
 		return 8 +legendElementWidth * i*0.98;
 	}
 	else {
-		console.log("pos not round",myround(d).length);
 		return 10 +legendElementWidth * i;
 	}
     }).attr("y",  50+gridSize*0.9).style("font-size",legendfontsize).style("font-weight",legendfontweight);
