@@ -353,7 +353,8 @@ function registerEventHandlers() {
     });
 
     // Before switching variable: save current settings for the outgoing variable.
-    d3.select("#variableList").on("mousedown", function() {
+    // Use mouseenter so the save is already done before the click opens the dropdown.
+    d3.select("#variableList").on("mouseenter", function() {
         storeCurrentSettingsInData(data, colSelected, false);
     });
 
