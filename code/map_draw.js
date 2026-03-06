@@ -13,34 +13,32 @@ function redrawEverything() {
 		}
         drawMap();
 		drawLegend();
-        // not used on server
-        if (typeof sumstats == 'function') {
+        // not used on server; skip if panel is collapsed
+        if (typeof sumstats == 'function' && $("#collapseFive").hasClass("in")) {
             sumstats();
         }
 
-        if (typeof histogram == 'function') {
+        if (typeof histogram == 'function' && $("#collapseFive").hasClass("in")) {
             histogram();
         }
     };
-    
-	
+
+
 
 function redrawRegions() {
 
 prepareData();
 if (((document.getElementById('bysize').checked == true) && (rescaled == true)) || ((document.getElementById('bysize').checked == false)  && (rescaled == false))) {
-console.log("value of rescaled",d3.selectAll(".subunit2").attr("rescaled"));
-mapg.selectAll(".subunit2") 
+mapg.selectAll(".subunit2")
     .attr('fill',function(d){
     return getcolor(coldata[this.id]);
     });
 }
 else {
-//		//console.log("value of rescaled",d3.selectAll(".subunit2").attr("rescaled"));
 drawMap();
 }
 drawLegend();
-histogram();
+if ($("#collapseFive").hasClass("in")) { histogram(); }
 }
 
 
