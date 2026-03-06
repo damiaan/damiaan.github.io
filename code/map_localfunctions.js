@@ -237,41 +237,29 @@ showinput(region);
 // if runninglocally, define actions for some more buttons
 
 poschecked =  document.getElementById('poscheck').checked;
-d3.select("#poscheck").on("change", function() { 
+d3.select("#poscheck").on("change", function() {
 poschecked =  document.getElementById('poscheck').checked;
-//console.log(poschecked);
-drawMap();
-drawLegend();
-histogram();
+setTimeout(function() { drawMap(); drawLegend(); histogram(); }, 0);
 });
 
 
 drawcopyright =  document.getElementById('drawcopyright').checked;
-d3.select("#drawcopyright").on("change", function() { 
+d3.select("#drawcopyright").on("change", function() {
 drawcopyright =  document.getElementById('drawcopyright').checked;
-console.log("copyrightcheck");
-drawMap();
-drawLegend();
-histogram();
+setTimeout(function() { drawMap(); drawLegend(); histogram(); }, 0);
 });
 
 
 poslegcheck =  document.getElementById('poslegcheck').checked;
-d3.select("#poslegcheck").on("change", function() { 
+d3.select("#poslegcheck").on("change", function() {
 poslegcheck =  document.getElementById('poslegcheck').checked;
-//console.log(poslegcheck);
-drawMap();
-drawLegend();
-histogram();
+setTimeout(function() { drawMap(); drawLegend(); histogram(); }, 0);
 });
 
 neglegcheck =  document.getElementById('neglegcheck').checked;
-d3.select("#neglegcheck").on("change", function() { 
+d3.select("#neglegcheck").on("change", function() {
 neglegcheck =  document.getElementById('neglegcheck').checked;
-//console.log(neglegcheck);
-drawMap();
-drawLegend();
-histogram();
+setTimeout(function() { drawMap(); drawLegend(); histogram(); }, 0);
 });
 
 
@@ -296,46 +284,40 @@ if (document.getElementById('drawregbordercheck').checked == true) {
 });
 
 
-d3.select("#drawshadecheck").on("change", function() { 
-drawMap();
+d3.select("#drawshadecheck").on("change", function() {
+setTimeout(drawMap, 0);
 });
 
 
-d3.select("#legend100").on("change", function() { 
-drawMap();
-drawLegend();
-histogram();
+d3.select("#legend100").on("change", function() {
+setTimeout(function() { drawMap(); drawLegend(); histogram(); }, 0);
 });
 
-d3.select("#legendpercentage").on("change", function() { 
-drawMap();
-drawLegend();
-histogram();
+d3.select("#legendpercentage").on("change", function() {
+setTimeout(function() { drawMap(); drawLegend(); histogram(); }, 0);
 });
 
 
-d3.select("#bysize").on("change", function() { 
-drawMap();
+d3.select("#bysize").on("change", function() {
+setTimeout(drawMap, 0);
 });
 
-d3.select("#nodata").on("change", function() { 
-drawMap();
+d3.select("#nodata").on("change", function() {
+setTimeout(drawMap, 0);
 });
 
-d3.select("#displaynames").on("change", function() { 
-drawMap();
+d3.select("#displaynames").on("change", function() {
+setTimeout(drawMap, 0);
 });
 
 
-d3.select("#drawgraticule").on("change", function() { 
-drawMap();
+d3.select("#drawgraticule").on("change", function() {
+setTimeout(drawMap, 0);
 });
 
-d3.select("#negcheck").on("change", function() { 
+d3.select("#negcheck").on("change", function() {
 negchecked =  document.getElementById('negcheck').checked;
-drawMap();
-drawLegend();
-histogram();
+setTimeout(function() { drawMap(); drawLegend(); histogram(); }, 0);
 });
 
 
@@ -414,10 +396,7 @@ d3.select("#outerbordersize").on("change", function() {
 mergeinput =  $("#MergeRegs").val();
 outerbordersize =  $("#outerbordersize").val();
 merge = mergeinput.split(",");
-//prepareData();
-drawMap();
-//drawLegend();
-//histogram();
+setTimeout(drawMap, 0);
 });
 
 
@@ -428,9 +407,7 @@ mergeinput = mergeinput.replace(/\s+/g, '');
 outerbordersize =  $("#outerbordersize").val();
 merge = mergeinput.split(",");
 prepareData();
-drawMap();
-drawLegend();
-histogram();
+setTimeout(function() { drawMap(); drawLegend(); histogram(); }, 0);
 });
 
 
@@ -845,7 +822,9 @@ $("#time").html(items);
 // not used on website
 // function to calculate and display summary statistics for selected variable    
 function sumstats() {
-        
+
+if (!$("#collapseFive").hasClass("in")) { return; }
+
         var coldata2 = {};
         var colarray = []; 
         //console.log('localdata', colSelected);
@@ -883,7 +862,6 @@ function sumstats() {
         p50 = d3.quantile(v, 0.50);
         p75 = d3.quantile(v, 0.75);
 		//console.log("p75", p75);
-        lowest.forEach(function(d) {console.log('lowest:',d)});
 	    text = "Hi: ";
 
 		highest.forEach(function(d) {
@@ -1070,10 +1048,10 @@ tooltip.transition()
 // CODE FOR DISPLAYING HISTOGRAM, NOT USED ON WEBSITE
 function histogram() {
 
+// Skip expensive computation when the stats panel is not visible.
+if (!$("#collapseFive").hasClass("in")) { return; }
 
-
-
-// remove color definitions 
+// remove color definitions
 // svg.selectAll("defs").remove();
 
 svg.append("defs")
@@ -1081,15 +1059,13 @@ svg.append("defs")
 //console.log('HISTOGRAM',data.length);
 //console.log('HISTOGRAM',data);
 
-histvar = []; 
+histvar = [];
 
 data.forEach(function(d) {
 	if (d.id.length < 6  && d.id.length != 0 ) {
 histvar.push(+d[colSelected]);
 	}
 });
-
-console.log("histvar1",histvar);
 
 // sort
 histvar = histvar.sort(function(a, b){return a-b});
@@ -1158,73 +1134,36 @@ histdata = new Array(numbins);
 //console.log("numbins", numbins);
 //console.log("histdata", histdata);
 for (var i = 0; i <= numbins; i++) {
-//	//console.log("AAAABBB");
-histdata[i] = { numfill: 0, meta: "" };
+histdata[i] = { numfill: 0, meta: "", avgval: 0, min: 9999999999, max: -9999999999, num: i };
 histdata[i].meta = "<table style='display: inline-block;'>";
 }
-//console.log("hmmm");
 
-// Fill histdata with y-axis values and meta data
+// Single pass: fill histdata with counts, meta, and per-bin stats.
 data.forEach(function(d) {
 	if (d.id.length < 6  && d.id.length != 0) {
-	if ((+d[colSelected]>=minval)&&(+d[colSelected]<=maxval)) {
-//	//console.log("nieuw punt", d.id);
-//	//console.log((+d[colSelected]));
-//	//console.log((+d[colSelected] - minbin));
-//	//console.log((+d[colSelected] - minbin) / binsize);
-//	//console.log(Math.floor(+d[colSelected]/binsize)*binsize);
-var bin = Math.floor((+d[colSelected] - minbin) / binsize);
-// the very maximum observation has to be joined in the bin just below the cutoff
-if (bin===numbins) {
-//bin = numbins-1;	
-};
-//console.log('bin', bin);
-
-if ((bin.toString() != "NaN") && (bin < histdata.length)) 
-{
+	var val = +d[colSelected];
+	if ((val>=minval)&&(val<=maxval)) {
+var bin = Math.floor((val - minbin) / binsize);
+if ((bin.toString() != "NaN") && (bin < histdata.length)) {
 histdata[bin].numfill += 1;
-//console.log('numfill', histdata[bin].numfill);
-if ((histdata[bin].numfill % 20) == 0) {	
+histdata[bin].avgval += val;
+if (val < histdata[bin].min) { histdata[bin].min = val; }
+if (val > histdata[bin].max) { histdata[bin].max = val; }
+if ((histdata[bin].numfill % 20) == 0) {
 histdata[bin].meta += "</table>";
 histdata[bin].meta += "<table style='display: inline-block;'>";
 }
 histdata[bin].meta += "<tr><td><font size='1'>" + d.id +
-""  + 
-"</font></td><td><font size='1'>" + 
-+myround(d[colSelected]) + "</font></td></tr>";
+"</font></td><td><font size='1'>" +
+myround(d[colSelected]) + "</font></td></tr>";
 }
 	}
 }
 });
 
 for (var i = 0; i <= numbins; i++) {
-//histdata[i].meta += "</table><div style='clear:both'></div>";
 histdata[i].meta += "</table>";
-//console.log('i', i);
-//console.log('histdata',histdata[i]);
-//console.log('tooltipdata', histdata[i].meta);
-histdata[i].avgval = 0;
-histdata[i].min = 9999999999;
-histdata[i].max = -9999999999;
-histdata[i].num = i;
-// try to calculate the average value within each bin, for colouring
-data.forEach(function(d) {
-	if ((+d[colSelected]>=minval)&&(+d[colSelected]<=maxval)) {
-	// if obs in bin "i", add value value
-if (Math.floor((+d[colSelected] - minbin) / binsize) == i) {
-	// will be true for all obs that fall in bin i
-	histdata[i].avgval += +d[colSelected];
-	if (+d[colSelected] < histdata[i].min) {
-		histdata[i].min = +d[colSelected];
-		}
-	if (+d[colSelected] > histdata[i].max) {
-		histdata[i].max = +d[colSelected];
-		}
-		
-	}
-}
-});
-histdata[i].avgval = histdata[i].avgval/histdata[i].numfill;
+histdata[i].avgval = histdata[i].avgval / histdata[i].numfill;
 }
 
 //console.log('histdata',histdata);

@@ -374,13 +374,13 @@ function registerEventHandlers() {
                 var vals = $("#poscutoffs").val().split(",").map(parseFloat);
                 document.getElementById("poscutoffs").value = vals.slice(0, parseInt($("#PosQuant").val()) + 1);
             }
-            redrawRegions();
+            setTimeout(redrawRegions, 0);
         } else {
             document.getElementById("groupingstyle").dispatchEvent(new Event("change"));
         }
     });
 
-    d3.select("#PosColor").on("change", function() { redrawEverything(); });
+    d3.select("#PosColor").on("change", function() { setTimeout(redrawEverything, 0); });
 
     d3.select("#NegQuant").on("change", function() {
         if (StyleSelected === "custom") {
@@ -388,13 +388,13 @@ function registerEventHandlers() {
                 var vals = $("#negcutoffs").val().split(",").map(parseFloat);
                 document.getElementById("negcutoffs").value = vals.slice(-parseInt($("#NegQuant").val()) - 1);
             }
-            redrawRegions();
+            setTimeout(redrawRegions, 0);
         } else {
             document.getElementById("groupingstyle").dispatchEvent(new Event("change"));
         }
     });
 
-    d3.select("#NegColor").on("change", function() { redrawEverything(); });
+    d3.select("#NegColor").on("change", function() { setTimeout(redrawEverything, 0); });
 
     // Custom cutoff inputs: redraw on Enter.
     document.getElementById("poscutoffs").addEventListener("keydown", function(e) {
@@ -403,9 +403,7 @@ function registerEventHandlers() {
         document.getElementById("groupingstyle").value = "custom";
         if ($("#poscutoffs").val().length === 0) document.getElementById("poscutoffs").value = 0;
         prepareData();
-        drawMap();
-        drawLegend();
-        histogram();
+        setTimeout(function() { drawMap(); drawLegend(); histogram(); }, 0);
     }, false);
 
     document.getElementById("negcutoffs").addEventListener("keydown", function(e) {
@@ -414,9 +412,7 @@ function registerEventHandlers() {
         document.getElementById("groupingstyle").value = "custom";
         if ($("#negcutoffs").val().length === 0) document.getElementById("negcutoffs").value = 0;
         prepareData();
-        drawMap();
-        drawLegend();
-        histogram();
+        setTimeout(function() { drawMap(); drawLegend(); histogram(); }, 0);
     }, false);
 
     // Translate input: apply stored map position on Enter.
