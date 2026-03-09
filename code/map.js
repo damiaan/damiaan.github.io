@@ -347,6 +347,35 @@ function registerEventHandlers() {
         document.body.removeChild(csvlink);
     });
 
+    // Save current map as PNG.
+    d3.select("#saveImage").on("click", function() {
+        var doctype = '<?xml version="1.0" standalone="no"?>'
+            + '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">';
+        var source = (new XMLSerializer()).serializeToString(d3.select('.svg-map').node());
+        var blob = new Blob([doctype + source], { type: 'image/svg+xml;charset=utf-8' });
+        var url = window.URL.createObjectURL(blob);
+        var img = new Image();
+        img.onload = function() {
+            var canvas = document.createElement('canvas');
+            canvas.width = 900;
+            canvas.height = 900;
+            var ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            var filename = ($("#prefix").val() + $("#variableList").val() + ".png").replace(/\s+/g, '');
+            $("#downloadLink").remove();
+            var downloadLink = $("<a>", {
+                id: "downloadLink",
+                href: canvas.toDataURL('image/png'),
+                download: filename
+            });
+            $("body").append(downloadLink);
+            $("#downloadLink").hide();
+            $("#downloadLink")[0].click();
+            window.URL.revokeObjectURL(url);
+        };
+        img.src = url;
+    });
+
     // Apply current settings to every variable in the file.
     d3.select("#applysettingsbutton").on("click", function() {
         storeCurrentSettingsInData(data, colSelected, true);
